@@ -17,14 +17,14 @@ public class UserService : IUserService
         return await userRepository.CreateUser(user);
     }
 
-    public async Task<bool> Delete(int userId)
+    public async Task<bool> Delete(List<User> usersToDelete)
     {
-        return await userRepository.DeleteUser(userId);
+        return await userRepository.DeleteUsers(usersToDelete);
     }
 
-    public async Task<User?> Get(int userId)
+    public async Task<User?> Get(Guid userGuid)
     {
-        return await userRepository.GetUserByID(userId);
+        return await userRepository.GetUserByGuid(userGuid);
     }
 
     public async Task<User?> Get(string email, string password)

@@ -3,6 +3,7 @@ using AutoMapper;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -19,14 +20,21 @@ public class UserController : Controller
     }
 
     [HttpGet("auth")]
-    public IActionResult CheckAuth()
+    public async Task<IActionResult> CheckAuth()
     {
-        if (User.Identity!.IsAuthenticated)
+        if (!User.Identity!.IsAuthenticated)
         {
-            return Ok(new { message = "User is authenticated" });
+            return Unauthorized(new { message = "User is not authenticated" });
         }
 
-        return Unauthorized(new { message = "User is not authenticated" });
+        var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+        var stringGuid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        var guid = new Guid(stringGuid!);
+
+        var user = await userService.Get(guid);
+
+        return Ok(new { message = "User is authenticated", role, email = user!.Email });
     }
 
     [HttpPost("register")]
@@ -46,33 +54,6 @@ public class UserController : Controller
 
         if (!status) return BadRequest(new { message = "Failed to create user" });
 
-        var authClaims = new List<Claim>()
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Guid.ToString())
-        };
-
-        var authIdentity = new ClaimsIdentity(authClaims, "auth-scheme");
-        var principal = new ClaimsPrincipal(authIdentity);
-
-        await HttpContext.SignInAsync("auth-scheme", principal,
-        new AuthenticationProperties
-        {
-            IsPersistent = true
-        });
-
-        var activeClaims = new List<Claim>()
-        {
-            new Claim(ClaimTypes.Authentication, "")
-        };
-
-        var activeIdentity = new ClaimsIdentity(activeClaims, "active-scheme");
-        var activePrincipal = new ClaimsPrincipal(activeIdentity);
-
-        await HttpContext.SignInAsync("active-scheme", activePrincipal,
-        new AuthenticationProperties
-        {
-            IsPersistent = true
-        });
         return Ok(new { message = "User has been created successfully" });
     }
 
@@ -85,18 +66,30 @@ public class UserController : Controller
         return Ok(new { message = "User has signed out" });
     }
 
+    [Authorize(Roles = "admin")]
+    [HttpGet("collaborators")]
+    public async Task<IActionResult> GetCollaborators()
+    {
+        var users = await userService.GetAll();
+        var collaborators = users
+            .Where(u => u.Role == "collaborator")
+            .Select(u => mapper.Map<CollaboratorDto>(u))
+            .ToList();
+
+        return Ok(new { collaborators });
+    }
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserDto userDto)
     {
-        User user = mapper.Map<User>(userDto);
-
         var searchedUser = await userService.Get(userDto.Email, userDto.Password);
 
         if (searchedUser == null) return Unauthorized(new { message = "User account not found!" });
 
         var authClaims = new List<Claim>()
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Guid.ToString())
+            new Claim(ClaimTypes.NameIdentifier, searchedUser.Guid.ToString()),
+            new Claim(ClaimTypes.Role, searchedUser.Role)
         };
 
         var activeClaims = new List<Claim>()
@@ -112,6 +105,6 @@ public class UserController : Controller
         var activePrincipal = new ClaimsPrincipal(activeIdentity);
         await HttpContext.SignInAsync("active-scheme", activePrincipal);
 
-        return Ok(new { message = "User has logged in successfully" });
+        return Ok(new { message = "User has logged in successfully", role = searchedUser.Role, email = searchedUser.Email });
     }
 }

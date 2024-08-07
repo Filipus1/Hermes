@@ -22,12 +22,18 @@ public class UserRepository : IUserRepository
         return await context.SaveChangesAsync() >= 1;
     }
 
-    public async Task<bool> DeleteUser(int UserId)
+    public async Task<bool> DeleteUsers(List<User> usersToDelete)
     {
-        var userToDelete = await context.Users.FirstOrDefaultAsync(user => user.Id == UserId);
+        if (usersToDelete == null) return false;
 
-        return userToDelete != null;
+        foreach (var user in usersToDelete)
+        {
+            context.Users.Remove(user);
+        }
+
+        return await context.SaveChangesAsync() >= 1;
     }
+
 
     public async Task<User?> GetUserByCredentials(string email, string password)
     {
@@ -45,9 +51,9 @@ public class UserRepository : IUserRepository
         return await context.Users.FirstOrDefaultAsync(user => user.Email == email);
     }
 
-    public async Task<User?> GetUserByID(int userId)
+    public async Task<User?> GetUserByGuid(Guid userGuid)
     {
-        return await context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        return await context.Users.FirstOrDefaultAsync(user => user.Guid == userGuid);
     }
 
     public async Task<IEnumerable<User>> GetUsers()
