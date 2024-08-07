@@ -1,14 +1,14 @@
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 
-public class EmailRepository : IEmailRepository
+public class EmailSender : IEmailSender
 {
     private readonly MimeMessage message;
     private readonly IEmailConfig emailConfig;
 
-    public EmailRepository(MimeMessage message, IEmailConfig emailConfig)
+    public EmailSender(MimeMessage message, IEmailConfig emailConfig)
     {
         this.message = message;
         this.emailConfig = emailConfig;

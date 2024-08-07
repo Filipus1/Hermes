@@ -1,6 +1,8 @@
+using Hermes.Application;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Application.Services;
+using Hermes.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
 
@@ -9,24 +11,25 @@ var envVar = DotNetEnv.Env.Load("../Hermes.Infrastructure/.env");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddSingleton<AppContextFactory>();
-builder.Services.AddSingleton<MimeMessage>();
 builder.Services.AddSingleton<IEmailConfig, EmailConfig>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 
+builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IEmailRepository>(provider =>
+builder.Services.AddScoped<IEmailSender>(provider =>
 {
     var message = provider.GetRequiredService<MimeMessage>();
     var config = provider.GetRequiredService<IEmailConfig>();
 
-    return new EmailRepository(message, config);
+    return new EmailSender(message, config);
+});
+
 builder.Services.AddScoped<ITokenRepository>(provider =>
 {
     var factory = provider.GetRequiredService<AppContextFactory>();

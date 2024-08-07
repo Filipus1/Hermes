@@ -1,4 +1,5 @@
 using Hermes.Application.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -12,11 +13,13 @@ public class EmailController : Controller
         this.emailService = emailService;
     }
 
+
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> SendEmail([FromBody] EmailDto emaildto)
     {
         var status = await emailService.Send(emaildto.ReceiverEmail, emaildto.Body);
 
-        return status ? Ok(new { message = "Email has been sent succesfully" }) : BadRequest(new { message = "Email has been sent succesfully" });
+        return status ? Ok(new { message = "Email has been sent succesfully" }) : BadRequest(new { message = "Sending email has failed" });
     }
 }

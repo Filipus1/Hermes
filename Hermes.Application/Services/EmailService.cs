@@ -2,15 +2,15 @@ using Hermes.Application.Abstraction;
 
 public class EmailService : IEmailService
 {
-    private IEmailRepository emailRepository;
+    private IEmailSender sender;
 
-    public EmailService(IEmailRepository emailRepository)
+    public EmailService(IEmailSender sender)
     {
-        this.emailRepository = emailRepository;
+        this.sender = sender;
     }
 
     public async Task<bool> Send(string receiverEmail, string body)
     {
-        return await emailRepository.SendEmail(receiverEmail, body);
+        return await sender.SendEmail(receiverEmail, body);
     }
 }
