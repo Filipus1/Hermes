@@ -16,8 +16,10 @@ builder.Services.AddSingleton<AppContextFactory>();
 builder.Services.AddSingleton<MimeMessage>();
 builder.Services.AddSingleton<IEmailConfig, EmailConfig>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmailRepository>(provider =>
 {
@@ -25,6 +27,13 @@ builder.Services.AddScoped<IEmailRepository>(provider =>
     var config = provider.GetRequiredService<IEmailConfig>();
 
     return new EmailRepository(message, config);
+builder.Services.AddScoped<ITokenRepository>(provider =>
+{
+    var factory = provider.GetRequiredService<AppContextFactory>();
+    var context = factory.CreateDbContext(args);
+    var tokenGenerator = provider.GetRequiredService<ITokenGenerator>();
+
+    return new TokenRepository(context, tokenGenerator);
 });
 
 builder.Services.AddScoped<IUserRepository>(provider =>
