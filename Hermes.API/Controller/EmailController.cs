@@ -2,14 +2,14 @@ using Hermes.Application.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/invite")]
+[Route("api/email")]
 public class EmailController : Controller
 {
     private readonly IEmailService emailService;
 
-    public EmailController(IEmailService eMailService)
+    public EmailController(IEmailService emailService)
     {
-        this.emailService = eMailService;
+        this.emailService = emailService;
     }
 
     [HttpPost]
