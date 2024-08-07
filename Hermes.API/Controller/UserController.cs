@@ -79,6 +79,33 @@ public class UserController : Controller
         return Ok(new { collaborators });
     }
 
+    [Authorize(Roles = "admin")]
+    [HttpDelete("collaborator/remove")]
+    public async Task<IActionResult> DeleteCollaborator([FromBody] List<CollaboratorDto> collaboratorsDto)
+    {
+        if (collaboratorsDto == null || !collaboratorsDto.Any())
+        {
+            return BadRequest("No collaborators provided.");
+        }
+
+        var allUsers = await userService.GetAll();
+
+        var emailsToDelete = collaboratorsDto.Select(dto => dto.Email).ToList();
+
+        var usersToDelete = allUsers
+            .Where(u => emailsToDelete.Contains(u.Email))
+            .ToList();
+
+        if (!usersToDelete.Any())
+        {
+            return NotFound("No users found to delete.");
+        }
+
+        var status = await userService.Delete(usersToDelete);
+
+        return status ? Ok("Users have been deleted!") : BadRequest("Deleting users has failed");
+    }
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserDto userDto)
     {
