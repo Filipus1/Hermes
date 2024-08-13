@@ -117,9 +117,9 @@ public class UserController : Controller
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] UserDto userDto)
+    public async Task<IActionResult> Login([FromBody] UserDto dto)
     {
-        var searchedUser = await userService.Get(userDto.Email, userDto.Password);
+        var searchedUser = await userService.Get(dto.Email, dto.Password);
 
         if (searchedUser == null) return Unauthorized(new { message = "User account not found!" });
 
