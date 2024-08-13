@@ -1,5 +1,4 @@
-﻿namespace Hermes.Application;
-
+﻿namespace Hermes.Application.Entities;
 public class InvitationToken
 {
     public int Id { get; set; }

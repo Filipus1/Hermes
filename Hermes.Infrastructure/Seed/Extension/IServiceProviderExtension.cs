@@ -3,8 +3,7 @@ using Hermes.Application.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Hermes.Infrastructure;
-
+namespace Hermes.Infrastructure.Seed;
 public static class IServiceProviderExtension
 {
     public static async Task SeedAdminUser(this IServiceProvider service)

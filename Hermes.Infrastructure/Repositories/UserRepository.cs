@@ -1,14 +1,16 @@
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
+using Hermes.Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+namespace Hermes.Infrastructure.Repository;
 public class UserRepository : IUserRepository
 {
-    private readonly AppContext context;
+    private readonly AppDbContext context;
     private readonly IPasswordHasher<User> passwordHasher;
 
-    public UserRepository(AppContext context, IPasswordHasher<User> passwordHasher)
+    public UserRepository(AppDbContext context, IPasswordHasher<User> passwordHasher)
     {
         this.context = context;
         this.passwordHasher = passwordHasher;

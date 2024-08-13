@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hermes.Application.Entities;
-
 public class User
 {
     public int Id { get; set; }

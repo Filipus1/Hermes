@@ -1,5 +1,6 @@
-﻿namespace Hermes.Application;
+﻿using Hermes.Application.Entities;
 
+namespace Hermes.Application.Abstraction;
 public interface ITokenRepository
 {
     public Task<InvitationToken?> CreateToken(string email);

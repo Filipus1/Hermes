@@ -1,3 +1,4 @@
+namespace Hermes.Infrastracture.Config;
 public class EmailConfig : IEmailConfig
 {
     public string SmtpServer { get; set; } = string.Empty;

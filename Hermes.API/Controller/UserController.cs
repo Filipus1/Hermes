@@ -3,10 +3,12 @@ using AutoMapper;
 using Hermes.Application;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
+using Hermes.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+namespace Hermes.API;
 [ApiController]
 [Route("api/users")]
 public class UserController : Controller

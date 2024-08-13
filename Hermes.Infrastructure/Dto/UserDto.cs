@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace Hermes.Infrastructure.Dto;
 public class UserDto
 {
     [Required]

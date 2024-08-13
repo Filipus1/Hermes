@@ -1,5 +1,7 @@
-﻿namespace Hermes.Application;
+﻿using Hermes.Application.Abstraction;
+using Hermes.Application.Entities;
 
+namespace Hermes.Application.Services;
 public class TokenService : ITokenService
 {
     private readonly ITokenRepository repository;

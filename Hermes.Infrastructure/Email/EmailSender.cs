@@ -1,10 +1,14 @@
-﻿using MailKit.Net.Smtp;
+﻿using Hermes.Application.Abstraction;
+using Hermes.Infrastracture.Config;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 
+namespace Hermes.Infrastructure.Email;
 public class EmailSender : IEmailSender
 {
+
     private readonly MimeMessage message;
     private readonly IEmailConfig emailConfig;
 

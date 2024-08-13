@@ -1,18 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hermes.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-public class AppContextFactory : IDesignTimeDbContextFactory<AppContext>
+namespace Hermes.Infrastracture.Context;
+public class AppContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
-    public AppContext CreateDbContext(string[] args)
+    public AppDbContext CreateDbContext(string[] args)
     {
         var envVar = DotNetEnv.Env.Load(".env");
 
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-        var optionsBuilder = new DbContextOptionsBuilder<AppContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
         optionsBuilder.UseNpgsql(connectionString);
 
-        return new AppContext(optionsBuilder.Options);
+        return new AppDbContext(optionsBuilder.Options);
     }
 }

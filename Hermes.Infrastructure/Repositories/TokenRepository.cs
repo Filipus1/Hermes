@@ -1,14 +1,17 @@
 ﻿using Hermes.Application;
+using Hermes.Application.Abstraction;
+using Hermes.Application.Entities;
+using Hermes.Infrastructure.Context;
+using Hermes.Infrastructure.TokenGenerator;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hermes.Infrastructure;
-
+namespace Hermes.Infrastructure.Repository;
 public class TokenRepository : ITokenRepository
 {
-    private readonly AppContext context;
+    private readonly AppDbContext context;
     private readonly ITokenGenerator generator;
 
-    public TokenRepository(AppContext context, ITokenGenerator generator)
+    public TokenRepository(AppDbContext context, ITokenGenerator generator)
     {
         this.context = context;
         this.generator = generator;

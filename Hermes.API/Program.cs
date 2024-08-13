@@ -2,7 +2,13 @@ using Hermes.Application;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Application.Services;
-using Hermes.Infrastructure;
+using Hermes.Infrastracture.Config;
+using Hermes.Infrastracture.Context;
+using Hermes.Infrastracture.Mapper;
+using Hermes.Infrastructure.Email;
+using Hermes.Infrastructure.Repository;
+using Hermes.Infrastructure.Seed;
+using Hermes.Infrastructure.TokenGenerator;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
 

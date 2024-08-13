@@ -2,7 +2,6 @@ using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 
 namespace Hermes.Application.Services;
-
 public class UserService : IUserService
 {
     private readonly IUserRepository userRepository;

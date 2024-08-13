@@ -1,10 +1,9 @@
-﻿using Hermes.Application;
-using Hermes.Infrastructure;
+﻿using Hermes.Application.Abstraction;
+using Hermes.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API;
-
 [ApiController]
 [Route("api/invite")]
 public class TokenController : Controller

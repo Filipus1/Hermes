@@ -1,5 +1,6 @@
 using Hermes.Application.Abstraction;
 
+namespace Hermes.Application.Services;
 public class EmailService : IEmailService
 {
     private IEmailSender sender;
