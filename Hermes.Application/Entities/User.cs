@@ -15,5 +15,6 @@ public class User
     [RegularExpression(@"(?=.*\d)(?=.*[A-Z]).{8,}",
     ErrorMessage = "Password must be at least 8 characters long, contain at least one number and one uppercase letter.")]
     public string Password { get; set; } = string.Empty;
+
     public string Role { get; set; } = "collaborator";
 }
