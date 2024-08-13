@@ -15,7 +15,6 @@ public class EmailController : Controller
         this.emailService = emailService;
     }
 
-
     [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> SendEmail([FromBody] EmailDto emaildto)

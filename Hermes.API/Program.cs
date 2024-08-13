@@ -1,4 +1,3 @@
-using Hermes.Application;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Application.Services;
