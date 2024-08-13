@@ -1,5 +1,4 @@
-﻿using Hermes.Application;
-using Hermes.Application.Abstraction;
+﻿using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Infrastructure.Context;
 using Hermes.Infrastructure.TokenGenerator;
