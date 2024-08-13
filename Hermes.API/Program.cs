@@ -98,10 +98,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("cors-policy");
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.MapControllers();
 
 await app.Services.SeedAdminUser();
