@@ -1,10 +1,10 @@
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Application.Services;
-using Hermes.Infrastracture.Config;
-using Hermes.Infrastracture.Context;
-using Hermes.Infrastracture.Mapper;
+using Hermes.Infrastructure.Config;
 using Hermes.Infrastructure.Email;
+using Hermes.Infrastructure.Factory;
+using Hermes.Infrastructure.Mapper;
 using Hermes.Infrastructure.Repository;
 using Hermes.Infrastructure.Seed;
 using Hermes.Infrastructure.TokenGenerator;

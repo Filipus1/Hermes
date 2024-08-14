@@ -1,5 +1,5 @@
 ﻿using Hermes.Application.Abstraction;
-using Hermes.Infrastracture.Config;
+using Hermes.Infrastructure.Config;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
