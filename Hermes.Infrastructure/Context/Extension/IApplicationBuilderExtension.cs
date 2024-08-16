@@ -11,7 +11,7 @@ namespace Hermes.Infrastructure.Context.Extension
         {
             using var scope = app.ApplicationServices.CreateScope();
             var factory = scope.ServiceProvider.GetRequiredService<AppContextFactory>();
-            var context = factory.CreateDbContext(args);
+            using var context = factory.CreateDbContext(args);
 
             context.Database.Migrate();
         }
