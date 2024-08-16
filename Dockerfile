@@ -6,7 +6,6 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN dotnet tool install --global dotnet-ef
 
 COPY ["Hermes.API/Hermes.API.csproj", "Hermes.API/"]
 COPY ["Hermes.Infrastructure/Hermes.Infrastructure.csproj", "Hermes.Infrastructure/"]
@@ -15,10 +14,6 @@ COPY ["Hermes.Application/Hermes.Application.csproj", "Hermes.Application/"]
 RUN dotnet restore "Hermes.API/Hermes.API.csproj"
 
 COPY . .
-
-WORKDIR "/src/Hermes.Infrastructure"
-
-RUN /root/.dotnet/tools/dotnet-ef migrations add Init 
 
 WORKDIR "/src/Hermes.API"
 
