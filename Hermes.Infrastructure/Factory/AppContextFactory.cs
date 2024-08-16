@@ -7,7 +7,7 @@ public class AppContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        var envVar = DotNetEnv.Env.Load(".env");
+        var envVar = DotNetEnv.Env.Load("../.env");
 
         var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 

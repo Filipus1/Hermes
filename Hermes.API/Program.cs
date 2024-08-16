@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using MimeKit;
 
 var builder = WebApplication.CreateBuilder(args);
-var envVar = DotNetEnv.Env.Load("../Hermes.Infrastructure/.env");
+var envVar = DotNetEnv.Env.Load("../.env");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
