@@ -36,7 +36,7 @@ public class TokenRepository : ITokenRepository
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+            Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
             throw;
         }
     }
