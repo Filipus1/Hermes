@@ -1,8 +1,7 @@
 name: CI
-
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
     branches:
       - master
@@ -10,21 +9,18 @@ on:
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v4.0.3
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4.0.1
         with:
-          node-version: 20.15.0
-
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1.6.0
-
-      - name: Build project
-        run: npm run build
-
+          dotnet-version: 8.0.x
+      - name: Project Dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+        
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
@@ -32,4 +28,3 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
