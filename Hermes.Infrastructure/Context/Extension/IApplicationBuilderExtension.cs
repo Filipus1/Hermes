@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Hermes.Infrastructure.Factory;
-using System.Linq;
 
 namespace Hermes.Infrastructure.Context.Extension
 {
