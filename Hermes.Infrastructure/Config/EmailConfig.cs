@@ -10,8 +10,8 @@ public class EmailConfig : IEmailConfig
     {
         SmtpServer = Environment.GetEnvironmentVariable("SMTP_SERVER")!;
         Port = int.Parse(Environment.GetEnvironmentVariable("PORT")!);
-        Username = Environment.GetEnvironmentVariable("USERNAME")!;
-        Password = Environment.GetEnvironmentVariable("PASSWORD")!;
+        Username = Environment.GetEnvironmentVariable("EMAIL_SENDER_USERNAME")!;
+        Password = Environment.GetEnvironmentVariable("EMAIL_SENDER_PASSWORD")!;
     }
 }
 

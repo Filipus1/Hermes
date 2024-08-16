@@ -19,6 +19,8 @@ Migrations/
 mono_crash.*
 *.env
 
+containers/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

@@ -2,6 +2,7 @@ using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Application.Services;
 using Hermes.Infrastructure.Config;
+using Hermes.Infrastructure.Context.Extension;
 using Hermes.Infrastructure.Email;
 using Hermes.Infrastructure.Factory;
 using Hermes.Infrastructure.Mapper;
@@ -100,6 +101,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 
+app.ApplyMigrations(args);
 await app.Services.SeedAdminUser();
 
 app.Run();
