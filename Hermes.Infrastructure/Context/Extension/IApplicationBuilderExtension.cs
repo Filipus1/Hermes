@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Hermes.Infrastructure.Factory;
+using System.Linq;
 
 namespace Hermes.Infrastructure.Context.Extension
 {
@@ -13,7 +14,11 @@ namespace Hermes.Infrastructure.Context.Extension
             var factory = scope.ServiceProvider.GetRequiredService<AppContextFactory>();
             using var context = factory.CreateDbContext(args);
 
-            context.Database.Migrate();
+            var pendingMigrations = context.Database.GetPendingMigrations();
+            if (pendingMigrations.Any())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }
