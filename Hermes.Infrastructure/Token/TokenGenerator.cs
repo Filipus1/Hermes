@@ -11,4 +11,3 @@ public interface ITokenGenerator
 {
     public string GenerateToken();
 }
-asd
