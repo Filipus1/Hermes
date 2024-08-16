@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: [master]
@@ -20,11 +21,9 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-        
-      - name: Build and Push Docker Image
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: filipus01/hermes
-          registry: docker.io
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Build and Push Docker Compose Services
+        run: |
+          docker-compose build
+          docker-compose push
