@@ -65,6 +65,8 @@ public class UserController : Controller
 
         if (!status) return BadRequest(new { message = "Failed to create user" });
 
+        await tokenService.Use(dto.Token);
+
         return Ok(new { message = "User has been created successfully" });
     }
 
