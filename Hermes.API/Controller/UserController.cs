@@ -114,7 +114,7 @@ public class UserController : Controller
 
         var status = await userService.Delete(usersToDelete);
 
-        return status ? Ok("Users have been deleted!") : BadRequest("Deleting users has failed");
+        return status ? Ok(new { message = "Users have been deleted" }) : BadRequest(new { message = "Deleting users have failed" });
     }
 
     [HttpPost("login")]
