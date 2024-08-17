@@ -55,20 +55,4 @@ public class TokenController : Controller
             return BadRequest(new { message = $"Generating invite token has failed: ${e.Message}" });
         }
     }
-
-    [HttpPost]
-    [Route("use")]
-    public async Task<IActionResult> UseInviteToken([FromBody] TokenDto dto)
-    {
-        try
-        {
-            await tokenService.Use(dto.Token);
-
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { message = $"Using invite token has failed: ${e.Message}" });
-        }
-    }
 }
