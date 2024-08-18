@@ -76,7 +76,7 @@ public class UserController : Controller
         await HttpContext.SignOutAsync("auth-scheme");
         await HttpContext.SignOutAsync("active-scheme");
 
-        return Ok(new { message = "User has signed out" });
+        return Ok();
     }
 
     [Authorize(Roles = "admin")]
