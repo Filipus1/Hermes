@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using MimeKit;
 
 var builder = WebApplication.CreateBuilder(args);
-var envVar = DotNetEnv.Env.Load("../.env");
+DotNetEnv.Env.Load("../.env");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,6 +23,7 @@ builder.Services.AddSingleton<AppContextFactory>();
 builder.Services.AddSingleton<IEmailConfig, EmailConfig>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
+builder.Services.AddSingleton<IFormatSerializer, BanSerializer>();
 
 builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IUserService, UserService>();
