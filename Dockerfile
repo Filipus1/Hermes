@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /hermesApp
+WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
@@ -17,14 +17,14 @@ COPY . .
 
 WORKDIR "/src/Hermes.API"
 
-RUN dotnet build "Hermes.API.csproj" -c $BUILD_CONFIGURATION -o /hermesApp/build
+RUN dotnet build "Hermes.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Hermes.API.csproj" -c $BUILD_CONFIGURATION -o /hermesApp/publish
+RUN dotnet publish "Hermes.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 FROM base AS final
-WORKDIR /hermesApp
-COPY --from=publish /hermesApp/publish .
+WORKDIR /app
+COPY --from=publish /app/publish .
 
 ENTRYPOINT ["dotnet", "Hermes.API.dll"]
