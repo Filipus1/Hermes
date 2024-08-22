@@ -43,10 +43,10 @@ public class BanSerializer : IFormatSerializer
 
         foreach (var pair in tokenIpPairs)
         {
-            if (pair.ContainsKey("Token") && pair.ContainsKey("Ip"))
+            if (pair.TryGetValue("Token", out string? token) && pair.TryGetValue("Ip", out string? Ip))
             {
-                formattedParts.Add(pair["Token"]);
-                formattedParts.Add(pair["Ip"]);
+                formattedParts.Add(token);
+                formattedParts.Add(Ip);
             }
         }
 
