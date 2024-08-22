@@ -36,7 +36,6 @@ public class UserRepository : IUserRepository
         return await context.SaveChangesAsync() >= 1;
     }
 
-
     public async Task<User?> GetUserByCredentials(string email, string password)
     {
         var user = await context.Users.FirstOrDefaultAsync(user => user.Email == email);
