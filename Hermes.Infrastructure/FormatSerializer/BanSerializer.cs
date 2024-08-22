@@ -4,7 +4,7 @@ public class BanSerializer : IFormatSerializer
 {
     public string FormatToJson(string input)
     {
-        string[] parts = input.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] parts = input.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
         var tokenIpPairs = new List<Dictionary<string, string>>();
 
