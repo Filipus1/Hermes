@@ -22,14 +22,16 @@ public class BanListController : Controller
         return jsonBanList != null ? Ok(jsonBanList) : BadRequest();
     }
 
-    [HttpPost("players/remove")]
-    public async Task<IActionResult> RemoveBannedPlayers([FromBody] List<BannedPlayerDto> dto)
+    [HttpPost("players/update")]
+    public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayerDto> dto)
     {
         string jsonString = JsonSerializer.Serialize(dto);
         string formattedString = serializer.JsonToFormat(jsonString);
 
+        if (formattedString == null) return BadRequest(new { message = "Serializer has failed to parse the payload" });
+
         await System.IO.File.WriteAllTextAsync("/app/banlist.txt", formattedString);
 
-        return formattedString != null ? Ok() : BadRequest();
+        return Ok(new { message = "The banlist have been updated" });
     }
 }
