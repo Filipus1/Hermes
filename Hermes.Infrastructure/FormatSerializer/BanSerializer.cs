@@ -1,5 +1,6 @@
 using System.Text.Json;
 
+namespace Hermes.Infrastructure.FormatSerializer;
 public class BanSerializer : IFormatSerializer
 {
     public string FormatToJson(string input)

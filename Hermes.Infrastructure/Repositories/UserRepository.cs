@@ -4,7 +4,7 @@ using Hermes.Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hermes.Infrastructure.Repository;
+namespace Hermes.Infrastructure.Repositories;
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext context;

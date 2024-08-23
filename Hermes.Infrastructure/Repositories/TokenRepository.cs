@@ -4,7 +4,7 @@ using Hermes.Infrastructure.Context;
 using Hermes.Infrastructure.TokenGenerator;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hermes.Infrastructure.Repository;
+namespace Hermes.Infrastructure.Repositories;
 public class TokenRepository : ITokenRepository
 {
     private readonly AppDbContext context;

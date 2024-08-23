@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Hermes.Infrastructure.FormatSerializer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
