@@ -6,7 +6,7 @@ namespace Hermes.API;
 [Route("api/ban")]
 public class BanListController : Controller
 {
-    public readonly IFormatSerializer serializer;
+    private readonly IFormatSerializer serializer;
 
     public BanListController(IFormatSerializer serializer)
     {

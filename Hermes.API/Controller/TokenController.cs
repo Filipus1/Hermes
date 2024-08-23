@@ -8,7 +8,7 @@ namespace Hermes.API;
 [Route("api/invite")]
 public class TokenController : Controller
 {
-    public readonly ITokenService tokenService;
+    private readonly ITokenService tokenService;
 
     public TokenController(ITokenService tokenService)
     {
