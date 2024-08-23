@@ -1,3 +1,4 @@
+using Hermes.API.Cookies;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Application.Services;
@@ -24,6 +25,7 @@ builder.Services.AddSingleton<IEmailConfig, EmailConfig>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddSingleton<IFormatSerializer, BanSerializer>();
+builder.Services.AddSingleton<CookieManager>();
 
 builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IUserService, UserService>();

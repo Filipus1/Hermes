@@ -6,18 +6,18 @@ namespace Hermes.API;
 [Route("api/ban")]
 public class BanListController : Controller
 {
-    private readonly IFormatSerializer serializer;
+    private readonly IFormatSerializer _serializer;
 
     public BanListController(IFormatSerializer serializer)
     {
-        this.serializer = serializer;
+        _serializer = serializer;
     }
 
     [HttpGet("players")]
     public async Task<IActionResult> GetBannedPlayers()
     {
         string text = await System.IO.File.ReadAllTextAsync("/app/banlist.txt");
-        var jsonBanList = serializer.FormatToJson(text);
+        var jsonBanList = _serializer.FormatToJson(text);
 
         return jsonBanList != null ? Ok(jsonBanList) : BadRequest();
     }
@@ -26,9 +26,12 @@ public class BanListController : Controller
     public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayerDto> dto)
     {
         string jsonString = JsonSerializer.Serialize(dto);
-        string formattedString = serializer.JsonToFormat(jsonString);
+        string formattedString = _serializer.JsonToFormat(jsonString);
 
-        if (formattedString == null) return BadRequest(new { message = "Serializer has failed to parse the payload" });
+        if (formattedString == null)
+        {
+            return BadRequest(new { message = "Serializer has failed to parse the payload" });
+        }
 
         await System.IO.File.WriteAllTextAsync("/app/banlist.txt", formattedString);
 

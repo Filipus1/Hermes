@@ -8,18 +8,18 @@ namespace Hermes.API;
 [Route("api/email")]
 public class EmailController : Controller
 {
-    private readonly IEmailService emailService;
+    private readonly IEmailService _emailService;
 
     public EmailController(IEmailService emailService)
     {
-        this.emailService = emailService;
+        _emailService = emailService;
     }
 
     [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> SendEmail([FromBody] EmailDto emaildto)
     {
-        var status = await emailService.Send(emaildto.ReceiverEmail, emaildto.Body);
+        var status = await _emailService.Send(emaildto.ReceiverEmail, emaildto.Body);
 
         return status ? Ok(new { message = "Email has been sent succesfully" }) : BadRequest(new { message = "Sending email has failed" });
     }

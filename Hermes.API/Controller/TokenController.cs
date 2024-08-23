@@ -8,11 +8,11 @@ namespace Hermes.API;
 [Route("api/invite")]
 public class TokenController : Controller
 {
-    private readonly ITokenService tokenService;
+    private readonly ITokenService _tokenService;
 
     public TokenController(ITokenService tokenService)
     {
-        this.tokenService = tokenService;
+        _tokenService = tokenService;
     }
 
     [Authorize(Roles = "admin")]
@@ -22,13 +22,12 @@ public class TokenController : Controller
     {
         try
         {
-            var invitationToken = await tokenService.Create(dto.CreatedBy);
+            var invitationToken = await _tokenService.Create(dto.CreatedBy);
 
             return Ok(new { token = invitationToken!.Token, createdBy = invitationToken!.CreatedBy });
         }
         catch (Exception e)
         {
-            System.Console.WriteLine(e.Message);
             return BadRequest(new { message = $"Generating invite token has failed: ${e.Message}" });
         }
     }
@@ -39,11 +38,11 @@ public class TokenController : Controller
     {
         try
         {
-            var validation = await tokenService.Validate(dto.Token);
+            var validation = await _tokenService.Validate(dto.Token);
 
             if (validation)
             {
-                var token = await tokenService.Get(dto.Token);
+                var token = await _tokenService.Get(dto.Token);
 
                 return Ok(new { createdBy = token!.CreatedBy });
             }
