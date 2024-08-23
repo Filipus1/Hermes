@@ -79,10 +79,10 @@ public class UserController : Controller
 
         var allUsers = await _userService.GetAll();
 
-        var emailsToDelete = collaboratorsDto.Select(dto => dto.Email).ToList();
+        var emails = collaboratorsDto.Select(dto => dto.Email).ToList();
 
         var usersToDelete = allUsers
-            .Where(u => emailsToDelete.Contains(u.Email))
+            .Where(u => emails.Contains(u.Email))
             .ToList();
 
         if (usersToDelete.Count == 0)
