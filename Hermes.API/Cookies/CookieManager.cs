@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 namespace Hermes.API.Cookies;
 public class CookieManager
 {
-    public async Task CreateAuthorizationCookies(User user, HttpContext httpContext)
+    public async Task SetAuthorizationCookies(User user, HttpContext httpContext)
     {
         var authClaims = new List<Claim>
             {

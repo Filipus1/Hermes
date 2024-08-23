@@ -54,7 +54,7 @@ public class AuthController : Controller
             return Unauthorized(new { message = "User account not found!" });
         }
 
-        await _cookieManager.CreateAuthorizationCookies(user, HttpContext);
+        await _cookieManager.SetAuthorizationCookies(user, HttpContext);
 
         return Ok(new { message = "User has logged in successfully", role = user.Role, email = user.Email });
     }
