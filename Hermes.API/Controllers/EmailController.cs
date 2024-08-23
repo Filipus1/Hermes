@@ -3,7 +3,7 @@ using Hermes.Infrastructure.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hermes.API;
+namespace Hermes.API.Controllers;
 [ApiController]
 [Route("api/email")]
 public class EmailController : Controller
