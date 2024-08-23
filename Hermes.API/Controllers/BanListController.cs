@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Hermes.Infrastructure.Dto;
 using Hermes.Infrastructure.FormatSerializer;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ public class BanListController : Controller
     }
 
     [HttpPost("players/update")]
-    public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayerDto> dto)
+    public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayersDto> dto)
     {
         string jsonString = JsonSerializer.Serialize(dto);
         string formattedString = _serializer.JsonToFormat(jsonString);
