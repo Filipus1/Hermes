@@ -70,16 +70,16 @@ public class UserController : Controller
 
     [Authorize(Roles = "admin")]
     [HttpDelete("collaborator/remove")]
-    public async Task<IActionResult> DeleteCollaborator([FromBody] List<CollaboratorDto> collaboratorsDto)
+    public async Task<IActionResult> DeleteCollaborator([FromBody] List<CollaboratorDto> dto)
     {
-        if (collaboratorsDto == null || collaboratorsDto.Count == 0)
+        if (dto == null || dto.Count == 0)
         {
             return BadRequest("No collaborators provided.");
         }
 
         var allUsers = await _userService.GetAll();
 
-        var emails = collaboratorsDto.Select(dto => dto.Email).ToList();
+        var emails = dto.Select(dto => dto.Email).ToList();
 
         var usersToDelete = allUsers
             .Where(u => emails.Contains(u.Email))
