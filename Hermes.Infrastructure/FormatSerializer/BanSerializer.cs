@@ -26,12 +26,12 @@ public class BanSerializer : IFormatSerializer
             }
         }
 
-        var result = new
+        var tokenIpPairsFormat = new
         {
             players = tokenIpPairs
         };
 
-        return JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true });
+        return JsonSerializer.Serialize(tokenIpPairsFormat);
     }
 
     public string JsonToFormat(string input)
