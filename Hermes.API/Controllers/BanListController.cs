@@ -32,6 +32,6 @@ public class BanListController : Controller
 
         await System.IO.File.WriteAllTextAsync("/app/banlist.txt", formattedString);
 
-        return Ok(new { message = "The banlist have been updated" });
+        return Ok(new { message = "The banlist has been updated" });
     }
 }
