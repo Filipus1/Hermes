@@ -38,7 +38,10 @@ public class BanSerializer : IFormatSerializer
     {
         var tokenIpPairs = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(input);
 
-        if (tokenIpPairs == null) return "";
+        if (tokenIpPairs == null)
+        {
+            throw new InvalidOperationException("Deserialization failed. The input JSON was invalid or incorrectly formatted.");
+        }
 
         List<string> formattedParts = new List<string>();
 

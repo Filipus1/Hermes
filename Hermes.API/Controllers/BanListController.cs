@@ -30,11 +30,6 @@ public class BanListController : Controller
         string jsonString = JsonSerializer.Serialize(dto);
         string formattedString = _serializer.JsonToFormat(jsonString);
 
-        if (formattedString == null)
-        {
-            return BadRequest(new { message = "Serializer has failed to parse the payload" });
-        }
-
         await System.IO.File.WriteAllTextAsync("/app/banlist.txt", formattedString);
 
         return Ok(new { message = "The banlist have been updated" });
