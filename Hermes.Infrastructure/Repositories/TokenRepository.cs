@@ -7,20 +7,20 @@ using Microsoft.EntityFrameworkCore;
 namespace Hermes.Infrastructure.Repositories;
 public class TokenRepository : ITokenRepository
 {
-    private readonly AppDbContext context;
-    private readonly ITokenGenerator generator;
+    private readonly AppDbContext _context;
+    private readonly ITokenGenerator _generator;
 
     public TokenRepository(AppDbContext context, ITokenGenerator generator)
     {
-        this.context = context;
-        this.generator = generator;
+        _context = context;
+        _generator = generator;
     }
 
     public async Task<InvitationToken?> CreateToken(string email)
     {
         try
         {
-            var token = generator.GenerateToken();
+            var token = _generator.GenerateToken();
 
             var invitationToken = new InvitationToken
             {
@@ -29,8 +29,8 @@ public class TokenRepository : ITokenRepository
                 ExpiryDate = DateTime.UtcNow.AddMinutes(15)
             };
 
-            await context.AddAsync(invitationToken);
-            await context.SaveChangesAsync();
+            await _context.AddAsync(invitationToken);
+            await _context.SaveChangesAsync();
 
             return invitationToken;
         }
@@ -43,7 +43,7 @@ public class TokenRepository : ITokenRepository
 
     public async Task<InvitationToken?> GetToken(string token)
     {
-        return await context.InvitationTokens.SingleOrDefaultAsync(it => it.Token == token);
+        return await _context.InvitationTokens.SingleOrDefaultAsync(it => it.Token == token);
     }
 
     public async Task UseToken(string token)
@@ -53,7 +53,7 @@ public class TokenRepository : ITokenRepository
         if (searchedToken == null) return;
 
         searchedToken.IsUsed = true;
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> IsTokenValid(string token)

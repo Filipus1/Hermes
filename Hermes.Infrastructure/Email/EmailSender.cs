@@ -8,29 +8,29 @@ using MimeKit.Text;
 namespace Hermes.Infrastructure.Email;
 public class EmailSender : IEmailSender
 {
-    private readonly MimeMessage message;
-    private readonly IEmailConfig emailConfig;
+    private readonly MimeMessage _message;
+    private readonly IEmailConfig _emailConfig;
 
     public EmailSender(MimeMessage message, IEmailConfig emailConfig)
     {
-        this.message = message;
-        this.emailConfig = emailConfig;
+        _message = message;
+        _emailConfig = emailConfig;
     }
 
     public async Task<bool> SendEmail(string receiverEmail, string body)
     {
-        message.From.Add(MailboxAddress.Parse(emailConfig.Username));
-        message.To.Add(MailboxAddress.Parse(receiverEmail));
-        message.Subject = "Invitation";
-        message.Body = new TextPart(TextFormat.Html) { Text = body };
+        _message.From.Add(MailboxAddress.Parse(_emailConfig.Username));
+        _message.To.Add(MailboxAddress.Parse(receiverEmail));
+        _message.Subject = "Invitation";
+        _message.Body = new TextPart(TextFormat.Html) { Text = body };
 
         using var smtp = new SmtpClient();
 
         try
         {
-            await smtp.ConnectAsync(emailConfig.SmtpServer, emailConfig.Port, SecureSocketOptions.StartTls);
-            await smtp.AuthenticateAsync(emailConfig.Username, emailConfig.Password);
-            await smtp.SendAsync(message);
+            await smtp.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(_emailConfig.Username, _emailConfig.Password);
+            await smtp.SendAsync(_message);
             await smtp.DisconnectAsync(true);
 
             return true;
