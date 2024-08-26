@@ -4,6 +4,7 @@ using Hermes.Application.Entities;
 using Hermes.Application.Services;
 using Hermes.Infrastructure.Config;
 using Hermes.Infrastructure.Context.Extension;
+using Hermes.Infrastructure.CronJobs.Extension;
 using Hermes.Infrastructure.Email;
 using Hermes.Infrastructure.Factory;
 using Hermes.Infrastructure.FormatSerializer;
@@ -11,6 +12,7 @@ using Hermes.Infrastructure.Mapper;
 using Hermes.Infrastructure.Repositories;
 using Hermes.Infrastructure.Seed;
 using Hermes.Infrastructure.TokenGenerator;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
 
@@ -87,6 +89,8 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
+
+builder.Services.AddCronJobs();
 
 builder.Services.AddControllers();
 
