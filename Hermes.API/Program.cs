@@ -12,7 +12,6 @@ using Hermes.Infrastructure.Mapper;
 using Hermes.Infrastructure.Repositories;
 using Hermes.Infrastructure.Seed;
 using Hermes.Infrastructure.TokenGenerator;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
 
