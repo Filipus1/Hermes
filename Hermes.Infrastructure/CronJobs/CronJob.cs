@@ -22,7 +22,6 @@ public class CronJob : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
-
         try
         {
             var monitoredServerUrl = Environment.GetEnvironmentVariable("MONITORED_SERVER_URL");
