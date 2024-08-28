@@ -16,7 +16,6 @@ public static class IServiceCollectionExtension
 
         services.AddSingleton<Queue<ServerDataDto>>();
 
-        services.AddHttpClient();
         services.AddScoped<ICronJobManager, CronJobManager>();
         services.AddScoped<IJob, CronJob>();
 
