@@ -18,7 +18,7 @@ public static class IServiceCollectionExtension
 
         services.AddHttpClient();
         services.AddScoped<ICronJobManager, CronJobManager>();
-        services.AddScoped<CronJob>();
+        services.AddScoped<IJob, CronJob>();
 
         services.ConfigureOptions<CronJobSetup>();
     }
