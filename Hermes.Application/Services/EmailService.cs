@@ -3,15 +3,15 @@ using Hermes.Application.Abstraction;
 namespace Hermes.Application.Services;
 public class EmailService : IEmailService
 {
-    private IEmailSender sender;
+    private readonly IEmailSender _sender;
 
     public EmailService(IEmailSender sender)
     {
-        this.sender = sender;
+        _sender = sender;
     }
 
     public async Task<bool> Send(string receiverEmail, string body)
     {
-        return await sender.SendEmail(receiverEmail, body);
+        return await _sender.SendEmail(receiverEmail, body);
     }
 }
