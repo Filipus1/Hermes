@@ -21,9 +21,9 @@ public class TokenService : ITokenService
         return await _repository.GetToken(token);
     }
 
-    public async Task Use(string token)
+    public async Task MarkTokenAsUsed(string token)
     {
-        await _repository.UseToken(token);
+        await _repository.MarkTokenAsUsed(token);
     }
 
     public async Task<bool> Validate(string token)

@@ -7,6 +7,7 @@ using Hermes.Infrastructure.Context.Extension;
 using Hermes.Infrastructure.CronJobs.Extension;
 using Hermes.Infrastructure.Email;
 using Hermes.Infrastructure.Factory;
+using Hermes.Infrastructure.FileHandler;
 using Hermes.Infrastructure.FormatSerializer;
 using Hermes.Infrastructure.Mapper;
 using Hermes.Infrastructure.Repositories;
@@ -27,8 +28,9 @@ builder.Services.AddSingleton<AppContextFactory>();
 builder.Services.AddSingleton<IEmailConfig, EmailConfig>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
-builder.Services.AddSingleton<IFormatSerializer, BanSerializer>();
+builder.Services.AddSingleton<BanListConverter>();
 builder.Services.AddSingleton<CookieManager>();
+builder.Services.AddSingleton<FileHandler>();
 
 builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IUserService, UserService>();

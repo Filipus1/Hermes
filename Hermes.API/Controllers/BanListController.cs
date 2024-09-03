@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Hermes.Infrastructure.Dto;
-using Hermes.Infrastructure.FormatSerializer;
+using Hermes.Infrastructure.FileHandler;
+using Hermes.Infrastructure.BanListConverter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
@@ -8,29 +9,32 @@ namespace Hermes.API.Controllers;
 [Route("api/ban")]
 public class BanListController : Controller
 {
-    private readonly IFormatSerializer _serializer;
+    private readonly BanListConverter _converter;
+    private readonly FileHandler _fileHandler;
 
-    public BanListController(IFormatSerializer serializer)
+    public BanListController(BanListConverter converter, FileHandler fileHandler)
     {
-        _serializer = serializer;
+        _converter = converter;
+        _fileHandler = fileHandler;
     }
 
     [HttpGet("players")]
     public async Task<IActionResult> GetBannedPlayers()
     {
-        string text = await System.IO.File.ReadAllTextAsync("/app/banlist.txt");
-        var jsonBanList = _serializer.FormatToJson(text);
+        var text = await _fileHandler.ReadFile();
 
-        return jsonBanList != null ? Ok(jsonBanList) : BadRequest();
+        var jsonBanList = _converter.ParseToJson(text);
+
+        return Ok(jsonBanList);
     }
 
     [HttpPost("players/update")]
     public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayersDto> dto)
     {
         string jsonString = JsonSerializer.Serialize(dto);
-        string formattedString = _serializer.JsonToFormat(jsonString);
+        string formattedString = _converter.ParseToBanList(jsonString);
 
-        await System.IO.File.WriteAllTextAsync("/app/banlist.txt", formattedString);
+        await _fileHandler.WriteFile(formattedString);
 
         return Ok(new { message = "The banlist has been updated" });
     }

@@ -40,4 +40,14 @@ public class UserService : IUserService
     {
         return await _userRepository.GetUsers();
     }
+
+    public async Task<IEnumerable<User>> GetCollaborators()
+    {
+        var users = await GetAll();
+        var collaborators = users
+            .Where(u => u.Role == "collaborator")
+            .ToList();
+
+        return collaborators;
+    }
 }

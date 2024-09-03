@@ -46,7 +46,7 @@ public class TokenRepository : ITokenRepository
         return await _context.InvitationTokens.SingleOrDefaultAsync(it => it.Token == token);
     }
 
-    public async Task UseToken(string token)
+    public async Task MarkTokenAsUsed(string token)
     {
         var searchedToken = await GetToken(token);
 

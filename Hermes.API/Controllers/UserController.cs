@@ -50,7 +50,7 @@ public class UserController : Controller
             return BadRequest(new { message = "Failed to create user" });
         }
 
-        await _tokenService.Use(dto.Token);
+        await _tokenService.MarkTokenAsUsed(dto.Token);
 
         return Ok(new { message = "User has been created successfully" });
     }
@@ -59,10 +59,9 @@ public class UserController : Controller
     [HttpGet("collaborators")]
     public async Task<IActionResult> GetCollaborators()
     {
-        var users = await _userService.GetAll();
-        var collaborators = users
-            .Where(u => u.Role == "collaborator")
-            .Select(u => _mapper.Map<CollaboratorDto>(u))
+        var users = await _userService.GetCollaborators();
+
+        var collaborators = users.Select(u => _mapper.Map<CollaboratorDto>(u))
             .ToList();
 
         return Ok(new { collaborators });
@@ -92,6 +91,6 @@ public class UserController : Controller
 
         var status = await _userService.Delete(usersToDelete);
 
-        return status ? Ok(new { message = "Users have been deleted" }) : BadRequest(new { message = "Deleting users have failed" });
+        return Ok(new { message = "Users have been deleted" });
     }
 }

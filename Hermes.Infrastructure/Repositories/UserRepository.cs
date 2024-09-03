@@ -68,4 +68,9 @@ public class UserRepository : IUserRepository
 
         return await _context.SaveChangesAsync() >= 1;
     }
+
+    public async Task<IEnumerable<User>> GetCollaborators()
+    {
+        return await _context.Users.ToListAsync();
+    }
 }

@@ -21,6 +21,7 @@ public class EmailController : Controller
     {
         var status = await _emailService.Send(dto.ReceiverEmail, dto.Body);
 
-        return status ? Ok(new { message = "Email has been sent succesfully" }) : BadRequest(new { message = "Sending email has failed" });
+        return status ? Ok(new { message = "Email has been sent succesfully" }) :
+         BadRequest(new { message = "Sending email has failed" });
     }
 }

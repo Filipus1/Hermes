@@ -1,11 +1,11 @@
 using System.Text.Json;
 
-namespace Hermes.Infrastructure.FormatSerializer;
-public class BanSerializer : IFormatSerializer
+namespace Hermes.Infrastructure.BanListConverter;
+public class BanListConverter
 {
-    public string FormatToJson(string input)
+    public string ParseToJson(string banList)
     {
-        string[] parts = input.Split('|', StringSplitOptions.RemoveEmptyEntries);
+        string[] parts = banList.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
         var tokenIpPairs = new List<Dictionary<string, string>>();
 
@@ -29,9 +29,9 @@ public class BanSerializer : IFormatSerializer
         return JsonSerializer.Serialize(tokenIpPairs);
     }
 
-    public string JsonToFormat(string input)
+    public string ParseToBanList(string jsonInput)
     {
-        var tokenIpPairs = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(input);
+        var tokenIpPairs = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(jsonInput);
 
         if (tokenIpPairs == null)
         {
