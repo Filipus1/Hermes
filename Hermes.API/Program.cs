@@ -8,7 +8,7 @@ using Hermes.Infrastructure.CronJobs.Extension;
 using Hermes.Infrastructure.Email;
 using Hermes.Infrastructure.Factory;
 using Hermes.Infrastructure.FileHandler;
-using Hermes.Infrastructure.FormatSerializer;
+using Hermes.Infrastructure.BanListConverter;
 using Hermes.Infrastructure.Mapper;
 using Hermes.Infrastructure.Repositories;
 using Hermes.Infrastructure.Seed;
