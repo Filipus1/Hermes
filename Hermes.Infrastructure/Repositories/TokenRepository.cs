@@ -18,27 +18,21 @@ public class TokenRepository : ITokenRepository
 
     public async Task<InvitationToken?> CreateToken(string email)
     {
-        try
+
+        var token = _generator.GenerateToken();
+
+        var invitationToken = new InvitationToken
         {
-            var token = _generator.GenerateToken();
+            CreatedBy = email,
+            Token = token,
+            ExpiryDate = DateTime.UtcNow.AddMinutes(15)
+        };
 
-            var invitationToken = new InvitationToken
-            {
-                CreatedBy = email,
-                Token = token,
-                ExpiryDate = DateTime.UtcNow.AddMinutes(15)
-            };
+        await _context.AddAsync(invitationToken);
+        await _context.SaveChangesAsync();
 
-            await _context.AddAsync(invitationToken);
-            await _context.SaveChangesAsync();
+        return invitationToken;
 
-            return invitationToken;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
-            throw;
-        }
     }
 
     public async Task<InvitationToken?> GetToken(string token)

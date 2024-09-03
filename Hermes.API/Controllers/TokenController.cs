@@ -20,38 +20,24 @@ public class TokenController : Controller
     [Route("generate")]
     public async Task<IActionResult> GenerateInviteToken([FromBody] InviteDto dto)
     {
-        try
-        {
-            var invitationToken = await _tokenService.Create(dto.CreatedBy);
+        var invitationToken = await _tokenService.Create(dto.CreatedBy);
 
-            return Ok(new { token = invitationToken!.Token, createdBy = invitationToken!.CreatedBy });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new { message = $"Generating invite token has failed: ${e.Message}" });
-        }
+        return Ok(new { token = invitationToken!.Token, createdBy = invitationToken!.CreatedBy });
     }
 
     [HttpPost]
     [Route("validate")]
     public async Task<IActionResult> ValidateInviteToken([FromBody] TokenDto dto)
     {
-        try
+        var validation = await _tokenService.Validate(dto.Token);
+
+        if (validation)
         {
-            var validation = await _tokenService.Validate(dto.Token);
+            var token = await _tokenService.Get(dto.Token);
 
-            if (validation)
-            {
-                var token = await _tokenService.Get(dto.Token);
-
-                return Ok(new { createdBy = token!.CreatedBy });
-            }
-
-            return BadRequest(new { message = $"Token {dto.Token} is not valid" });
+            return Ok(new { createdBy = token!.CreatedBy });
         }
-        catch (Exception e)
-        {
-            return BadRequest(new { message = $"Generating invite token has failed: ${e.Message}" });
-        }
+
+        return BadRequest(new { message = $"Token {dto.Token} is not valid" });
     }
 }
