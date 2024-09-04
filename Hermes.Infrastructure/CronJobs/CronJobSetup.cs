@@ -12,7 +12,7 @@ public class CronJobSetup : IConfigureOptions<QuartzOptions>
             .AddJob<CronJob>(JobBuilder => JobBuilder.WithIdentity(jobKey))
             .AddTrigger(trigger =>
             trigger.ForJob(jobKey)
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInMinutes(INTERVAL_TIME).RepeatForever())
+            .WithSimpleSchedule(schedule => schedule.WithIntervalInHours(INTERVAL_TIME).RepeatForever())
             );
     }
 }
