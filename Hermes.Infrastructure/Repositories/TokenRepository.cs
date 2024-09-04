@@ -44,7 +44,10 @@ public class TokenRepository : ITokenRepository
     {
         var searchedToken = await GetToken(token);
 
-        if (searchedToken == null) return;
+        if (searchedToken == null)
+        {
+            return;
+        }
 
         searchedToken.IsUsed = true;
         await _context.SaveChangesAsync();
