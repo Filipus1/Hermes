@@ -33,6 +33,7 @@ builder.Services.AddSingleton<CookieManager>();
 builder.Services.AddSingleton<FileHandler>();
 
 builder.Services.AddScoped<MimeMessage>();
+builder.Services.AddScoped<IServerDataService, ServerDataService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
@@ -61,6 +62,14 @@ builder.Services.AddScoped<IUserRepository>(provider =>
     var hasher = provider.GetRequiredService<IPasswordHasher<User>>();
 
     return new UserRepository(context, hasher);
+});
+
+builder.Services.AddScoped<IServerDataRepository>(provider =>
+{
+    var factory = provider.GetRequiredService<AppContextFactory>();
+    var context = factory.CreateDbContext(args);
+
+    return new ServerDataRepository(context);
 });
 
 builder.Services.AddAuthentication("auth-scheme")

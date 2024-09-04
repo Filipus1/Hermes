@@ -1,6 +1,8 @@
 namespace Hermes.Application.Entities;
 public class ServerData
 {
+    public int Id { get; set; }
+    public string Created { get; set; } = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
     public int Players { get; set; }
     public string ServerName { get; set; } = string.Empty;
     public string GameMode { get; set; } = string.Empty;

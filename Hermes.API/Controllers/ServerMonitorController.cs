@@ -1,4 +1,6 @@
-using Hermes.Infrastructure.CronJobs.Manager;
+using AutoMapper;
+using Hermes.Application.Abstraction;
+using Hermes.Infrastructure.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
@@ -6,25 +8,33 @@ namespace Hermes.API.Controllers;
 [Route("api/server")]
 public class ServerMonitorController : Controller
 {
-    private readonly ICronJobManager _manager;
     private readonly HttpClient _client;
+    private readonly IServerDataService _serverDataService;
 
-    public ServerMonitorController(ICronJobManager manager, HttpClient client)
+    public ServerMonitorController(HttpClient client, IServerDataService serverDataService, IMapper mapper)
     {
-        _manager = manager;
         _client = client;
+        _serverDataService = serverDataService;
     }
 
     [HttpGet("jobs")]
-    public Task<IActionResult> GetCronJobs()
+    public async Task<IActionResult> GetPlayers()
     {
-        var cronJobQueue = _manager.GetQueue();
+        var serverDatas = await _serverDataService.Get();
 
-        return Task.FromResult<IActionResult>(Ok(cronJobQueue));
+        return Ok(serverDatas);
     }
 
-    [HttpGet("check")]
+    [HttpGet("get/data")]
     public async Task<IActionResult> GetServerData()
+    {
+        var data = await _serverDataService.Get();
+
+        return Ok(data);
+    }
+
+    [HttpGet("status")]
+    public async Task<IActionResult> GetServerStatus()
     {
         try
         {
@@ -32,13 +42,12 @@ public class ServerMonitorController : Controller
 
             var response = await _client.GetStringAsync(url);
 
-            return Content(response, "application/json");
+            return Ok(new { message = "Online" });
         }
 
-        catch (Exception ex)
+        catch (Exception)
         {
-            System.Console.WriteLine($"Exception occured: {ex}");
-            return BadRequest();
+            return BadRequest(new { message = "Offline" });
         }
     }
 }

@@ -1,8 +1,7 @@
 using System.Text.Json;
 using AutoMapper;
+using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
-using Hermes.Infrastructure.CronJobs.Manager;
-using Hermes.Infrastructure.Dto;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
@@ -10,14 +9,12 @@ namespace Hermes.Infrastructure.CronJobs;
 public class CronJob : IJob
 {
     private readonly HttpClient _httpClient;
-    private readonly ICronJobManager _manager;
-    private readonly IMapper _mapper;
+    private readonly IServerDataService _serverDataService;
 
-    public CronJob(HttpClient httpClient, ICronJobManager manager, IMapper mapper)
+    public CronJob(HttpClient httpClient, IServerDataService serverDataService)
     {
         _httpClient = httpClient;
-        _manager = manager;
-        _mapper = mapper;
+        _serverDataService = serverDataService;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -34,9 +31,11 @@ public class CronJob : IJob
             };
 
             var serverData = JsonSerializer.Deserialize<ServerData>(jsonResponse, options);
-            var dto = _mapper.Map<ServerDataDto>(serverData);
 
-            _manager.EnqueueJob(dto);
+            if (serverData != null)
+            {
+                await _serverDataService.Add(serverData);
+            }
         }
 
         catch (Exception ex)
