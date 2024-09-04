@@ -43,13 +43,6 @@ public class UserController : Controller
             return Conflict(new { message = "An account with this email already exists" });
         }
 
-        var status = await _userService.Create(user);
-
-        if (!status)
-        {
-            return BadRequest(new { message = "Failed to create user" });
-        }
-
         await _tokenService.MarkTokenAsUsed(dto.Token);
 
         return Ok(new { message = "User has been created successfully" });
