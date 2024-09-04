@@ -51,7 +51,7 @@ public class AuthController : Controller
 
         if (user == null)
         {
-            return Unauthorized(new { message = "User account not found!" });
+            return Unauthorized(new { message = "User email or password is incorrect!" });
         }
 
         await _cookieManager.SetAuthorizationCookies(user, HttpContext);
