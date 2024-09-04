@@ -23,7 +23,10 @@ public static class IServiceProviderExtension
 
         var existingAdmin = await userService.Get(adminEmail);
 
-        if (existingAdmin != null) return;
+        if (existingAdmin != null)
+        {
+            return;
+        }
 
         var adminUser = new User
         {
