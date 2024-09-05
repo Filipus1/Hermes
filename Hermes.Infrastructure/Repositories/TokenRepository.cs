@@ -25,7 +25,7 @@ public class TokenRepository : ITokenRepository
         {
             CreatedBy = email,
             Token = token,
-            ExpiryDate = DateTime.UtcNow.AddMinutes(15)
+            ExpiryDate = DateTime.UtcNow.AddDays(7)
         };
 
         await _context.AddAsync(invitationToken);
