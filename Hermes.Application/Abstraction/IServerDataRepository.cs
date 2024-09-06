@@ -1,4 +1,3 @@
-using System;
 using Hermes.Application.Entities;
 
 namespace Hermes.Application.Abstraction;

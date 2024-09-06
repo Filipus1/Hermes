@@ -1,6 +1,5 @@
 using AutoMapper;
 using Hermes.Application.Abstraction;
-using Hermes.Infrastructure.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;

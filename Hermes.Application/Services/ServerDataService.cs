@@ -1,4 +1,3 @@
-using System;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 
