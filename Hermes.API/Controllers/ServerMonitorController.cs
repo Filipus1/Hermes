@@ -17,14 +17,6 @@ public class ServerMonitorController : Controller
         _serverDataService = serverDataService;
     }
 
-    [HttpGet("jobs")]
-    public async Task<IActionResult> GetPlayers()
-    {
-        var serverDatas = await _serverDataService.Get();
-
-        return Ok(serverDatas);
-    }
-
     [HttpGet("get/data")]
     public async Task<IActionResult> GetServerData()
     {
