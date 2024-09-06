@@ -19,13 +19,13 @@ public class EmailSender : IEmailSender
 
     public async Task<bool> SendEmail(string receiverEmail, string topic, string body)
     {
+        _message.From.Add(MailboxAddress.Parse(_emailConfig.Username));
+        _message.To.Add(MailboxAddress.Parse(receiverEmail));
+        _message.Subject = topic;
+        _message.Body = new TextPart(TextFormat.Html) { Text = body };
+
         try
         {
-            _message.From.Add(MailboxAddress.Parse(_emailConfig.Username));
-            _message.To.Add(MailboxAddress.Parse(receiverEmail));
-            _message.Subject = topic;
-            _message.Body = new TextPart(TextFormat.Html) { Text = body };
-
             using var smtp = new SmtpClient();
 
             await smtp.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, SecureSocketOptions.StartTls);
