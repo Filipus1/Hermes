@@ -4,15 +4,22 @@ using Quartz;
 namespace Hermes.Infrastructure.CronJobs;
 public class CronJobSetup : IConfigureOptions<QuartzOptions>
 {
-    private const int INTERVAL_TIME = 1;
     public void Configure(QuartzOptions options)
     {
-        var jobKey = JobKey.Create(nameof(CronJob));
+        var serverDataJobKey = JobKey.Create(nameof(ServerDataJob));
         options
-            .AddJob<CronJob>(JobBuilder => JobBuilder.WithIdentity(jobKey))
+            .AddJob<ServerDataJob>(JobBuilder => JobBuilder.WithIdentity(serverDataJobKey))
             .AddTrigger(trigger =>
-            trigger.ForJob(jobKey)
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInHours(INTERVAL_TIME).RepeatForever())
+            trigger.ForJob(serverDataJobKey)
+            .WithSimpleSchedule(schedule => schedule.WithIntervalInHours(1).RepeatForever())
+            );
+
+        var serverHealthStatusJobKey = JobKey.Create(nameof(ServerHealthStatusJob));
+        options
+            .AddJob<ServerHealthStatusJob>(JobBuilder => JobBuilder.WithIdentity(serverHealthStatusJobKey))
+            .AddTrigger(trigger =>
+            trigger.ForJob(serverHealthStatusJobKey)
+            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever())
             );
     }
 }

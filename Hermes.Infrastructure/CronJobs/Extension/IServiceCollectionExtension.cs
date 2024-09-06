@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using Hermes.Infrastructure.Dto;
 
 namespace Hermes.Infrastructure.CronJobs.Extension;
 public static class IServiceCollectionExtension
@@ -13,7 +12,8 @@ public static class IServiceCollectionExtension
             options.WaitForJobsToComplete = true;
         });
 
-        services.AddScoped<IJob, CronJob>();
+        services.AddScoped<IJob, ServerDataJob>();
+        services.AddScoped<IJob, ServerHealthStatusJob>();
 
         services.ConfigureOptions<CronJobSetup>();
     }

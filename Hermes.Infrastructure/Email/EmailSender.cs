@@ -17,13 +17,13 @@ public class EmailSender : IEmailSender
         _emailConfig = emailConfig;
     }
 
-    public async Task<bool> SendEmail(string receiverEmail, string body)
+    public async Task<bool> SendEmail(string receiverEmail, string topic, string body)
     {
         try
         {
             _message.From.Add(MailboxAddress.Parse(_emailConfig.Username));
             _message.To.Add(MailboxAddress.Parse(receiverEmail));
-            _message.Subject = "Invitation";
+            _message.Subject = topic;
             _message.Body = new TextPart(TextFormat.Html) { Text = body };
 
             using var smtp = new SmtpClient();

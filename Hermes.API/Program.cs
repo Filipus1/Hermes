@@ -36,7 +36,6 @@ builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IServerDataService, ServerDataService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmailSender>(provider =>
 {
     var message = provider.GetRequiredService<MimeMessage>();

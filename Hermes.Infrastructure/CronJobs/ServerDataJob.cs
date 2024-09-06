@@ -1,17 +1,16 @@
 using System.Text.Json;
-using AutoMapper;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
 [DisallowConcurrentExecution]
-public class CronJob : IJob
+public class ServerDataJob : IJob
 {
     private readonly HttpClient _httpClient;
     private readonly IServerDataService _serverDataService;
 
-    public CronJob(HttpClient httpClient, IServerDataService serverDataService)
+    public ServerDataJob(HttpClient httpClient, IServerDataService serverDataService)
     {
         _httpClient = httpClient;
         _serverDataService = serverDataService;

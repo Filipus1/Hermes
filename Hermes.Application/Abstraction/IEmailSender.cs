@@ -1,5 +1,5 @@
 namespace Hermes.Application.Abstraction;
-public interface IEmailRepository
+public interface IEmailSender
 {
-    public Task<bool> SendEmail(string receiverEmail, string body);
+    public Task<bool> SendEmail(string receiverEmail, string topic, string body);
 }
