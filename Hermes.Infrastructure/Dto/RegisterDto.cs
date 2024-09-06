@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Hermes.Infrastructure.Dto;
-public class RegisterDto
+public record RegisterDto
 {
     [Required]
     [EmailAddress(ErrorMessage = "Invalid email address.")]
