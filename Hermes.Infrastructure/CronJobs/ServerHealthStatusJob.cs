@@ -33,7 +33,8 @@ public class ServerHealthStatusJob : IJob
             {
                 _lastAlarmEmailSendDate = DateTime.UtcNow;
 
-                await _emailSender.SendEmail(adminEmail!, "Health Status Error", ex.Message);
+                await _emailSender.SendEmail(adminEmail!, "Health Status Error",
+                    $"<h2 style='color:red;'> {ex.Message}</h2> <br> <p style='color:black;'> StackTrace: {ex.StackTrace}</p>");
             }
         }
     }
