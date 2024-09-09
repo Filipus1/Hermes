@@ -21,5 +21,13 @@ public class CronJobSetup : IConfigureOptions<QuartzOptions>
             trigger.ForJob(serverHealthStatusJobKey)
             .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever())
             );
+
+        var serverDataExpiredJobKey = JobKey.Create(nameof(ServerDataExpiredJob));
+        options
+            .AddJob<ServerDataExpiredJob>(JobBuilder => JobBuilder.WithIdentity(serverDataExpiredJobKey))
+            .AddTrigger(trigger =>
+            trigger.ForJob(serverDataExpiredJobKey)
+            .WithSimpleSchedule(schedule => schedule.WithIntervalInHours(24).RepeatForever())
+            );
     }
 }

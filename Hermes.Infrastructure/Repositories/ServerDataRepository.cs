@@ -1,4 +1,3 @@
-using System;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Infrastructure.Context;
@@ -28,5 +27,18 @@ public class ServerDataRepository : IServerDataRepository
             .OrderBy(sd => sd.Id)
             .Take(24)
             .ToListAsync();
+    }
+
+    public async Task DeleteExpired()
+    {
+        var serverDataList = await _context.ServerDatas.ToListAsync();
+
+        var expiredList = serverDataList.Where(d => d.IsExpired()).ToList();
+
+        if (expiredList.Count != 0)
+        {
+            _context.ServerDatas.RemoveRange(expiredList);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -21,4 +21,9 @@ public class ServerDataService : IServerDataService
     {
         return await _repository.GetServerData();
     }
+
+    public async Task DeleteExpired()
+    {
+        await _repository.DeleteExpired();
+    }
 }

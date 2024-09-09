@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Hermes.Application.Entities;
 public class ServerData
 {
@@ -13,4 +15,11 @@ public class ServerData
     public string World { get; set; } = string.Empty;
     public string Version { get; set; } = string.Empty;
     public string PreloadUrl { get; set; } = string.Empty;
+
+    public bool IsExpired()
+    {
+        var createdDateTime = DateTime.ParseExact(Created, "MM/dd/yyyy HH:mm", CultureInfo.CurrentCulture);
+
+        return createdDateTime.AddDays(30) < DateTime.Now;
+    }
 }

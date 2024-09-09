@@ -14,6 +14,7 @@ public static class IServiceCollectionExtension
 
         services.AddScoped<IJob, ServerDataJob>();
         services.AddScoped<IJob, ServerHealthStatusJob>();
+        services.AddScoped<IJob, ServerDataExpiredJob>();
 
         services.ConfigureOptions<CronJobSetup>();
     }
