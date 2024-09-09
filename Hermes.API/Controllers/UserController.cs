@@ -83,7 +83,7 @@ public class UserController : Controller
             return NotFound("No users found to delete.");
         }
 
-        var status = await _userService.Delete(usersToDelete);
+        await _userService.Delete(usersToDelete);
 
         return Ok(new { message = "Users have been deleted" });
     }

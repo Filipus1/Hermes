@@ -16,24 +16,22 @@ public class UserRepository : IUserRepository
         _passwordHasher = passwordHasher;
     }
 
-    public async Task<bool> CreateUser(User user)
+    public async Task CreateUser(User user)
     {
         await _context.Users.AddAsync(user);
         user.Password = _passwordHasher.HashPassword(user, user.Password);
 
-        return await _context.SaveChangesAsync() >= 1;
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteUsers(List<User> usersToDelete)
+    public async Task DeleteUsers(List<User> usersToDelete)
     {
-        if (usersToDelete == null) return false;
-
         foreach (var user in usersToDelete)
         {
             _context.Users.Remove(user);
         }
 
-        return await _context.SaveChangesAsync() >= 1;
+        await _context.SaveChangesAsync();
     }
 
     public async Task<User?> GetUserByCredentials(string email, string password)
@@ -62,11 +60,11 @@ public class UserRepository : IUserRepository
         return await _context.Users.ToListAsync();
     }
 
-    public async Task<bool> UpdateUser(User user)
+    public async Task UpdateUser(User user)
     {
         _context.Users.Update(user);
 
-        return await _context.SaveChangesAsync() >= 1;
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<User>> GetCollaborators()

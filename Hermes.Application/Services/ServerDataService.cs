@@ -12,9 +12,9 @@ public class ServerDataService : IServerDataService
         _repository = repository;
     }
 
-    public async Task<bool> Add(ServerData serverData)
+    public async Task Add(ServerData serverData)
     {
-        return await _repository.AddServerData(serverData);
+        await _repository.AddServerData(serverData);
     }
 
     public async Task<IEnumerable<ServerData>> Get()

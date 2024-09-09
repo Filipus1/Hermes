@@ -11,14 +11,14 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<bool> Create(User user)
+    public async Task Create(User user)
     {
-        return await _userRepository.CreateUser(user);
+        await _userRepository.CreateUser(user);
     }
 
-    public async Task<bool> Delete(List<User> usersToDelete)
+    public async Task Delete(List<User> usersToDelete)
     {
-        return await _userRepository.DeleteUsers(usersToDelete);
+        await _userRepository.DeleteUsers(usersToDelete);
     }
 
     public async Task<User?> Get(Guid userGuid)

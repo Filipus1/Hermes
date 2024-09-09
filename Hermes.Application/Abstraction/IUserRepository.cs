@@ -7,7 +7,7 @@ public interface IUserRepository
     Task<User?> GetUserByGuid(Guid userGuid);
     Task<User?> GetUserByCredentials(string email, string password);
     Task<User?> GetUserByEmail(string email);
-    Task<bool> CreateUser(User user);
-    Task<bool> DeleteUsers(List<User> usersToDelete);
-    Task<bool> UpdateUser(User user);
+    Task CreateUser(User user);
+    Task DeleteUsers(List<User> usersToDelete);
+    Task UpdateUser(User user);
 }

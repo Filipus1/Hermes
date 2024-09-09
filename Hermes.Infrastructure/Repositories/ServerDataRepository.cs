@@ -14,11 +14,11 @@ public class ServerDataRepository : IServerDataRepository
         _context = context;
     }
 
-    public async Task<bool> AddServerData(ServerData serverData)
+    public async Task AddServerData(ServerData serverData)
     {
         await _context.AddAsync(serverData);
 
-        return await _context.SaveChangesAsync() >= 1;
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<ServerData>> GetServerData()
