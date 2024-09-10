@@ -10,7 +10,7 @@ public class ServerMonitorController : Controller
     private readonly HttpClient _client;
     private readonly IServerDataService _serverDataService;
 
-    public ServerMonitorController(HttpClient client, IServerDataService serverDataService, IMapper mapper)
+    public ServerMonitorController(HttpClient client, IServerDataService serverDataService)
     {
         _client = client;
         _serverDataService = serverDataService;
