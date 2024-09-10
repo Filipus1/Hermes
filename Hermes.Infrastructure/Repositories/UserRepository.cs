@@ -38,7 +38,10 @@ public class UserRepository : IUserRepository
     {
         var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
 
-        if (user == null) return null;
+        if (user == null)
+        {
+            return null;
+        }
 
         var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
 
@@ -65,10 +68,5 @@ public class UserRepository : IUserRepository
         _context.Users.Update(user);
 
         await _context.SaveChangesAsync();
-    }
-
-    public async Task<IEnumerable<User>> GetCollaborators()
-    {
-        return await _context.Users.ToListAsync();
     }
 }

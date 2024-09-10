@@ -1,4 +1,3 @@
-using AutoMapper;
 using Hermes.Application.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 

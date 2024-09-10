@@ -32,7 +32,6 @@ public class TokenRepository : ITokenRepository
         await _context.SaveChangesAsync();
 
         return invitationToken;
-
     }
 
     public async Task<InvitationToken?> GetToken(string token)
