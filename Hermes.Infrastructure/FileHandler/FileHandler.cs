@@ -3,11 +3,15 @@ public class FileHandler
 {
     public async Task<string> ReadFile()
     {
-        return await File.ReadAllTextAsync("/app/banlist.txt");
+        var path = Environment.GetEnvironmentVariable("DOCKER_BAN_LIST_PATH");
+
+        return await File.ReadAllTextAsync(path!);
     }
 
     public async Task WriteFile(string formattedString)
     {
-        await File.WriteAllTextAsync("/app/banlist.txt", formattedString);
+        var path = Environment.GetEnvironmentVariable("DOCKER_BAN_LIST_PATH");
+
+        await File.WriteAllTextAsync(path!, formattedString);
     }
 }
