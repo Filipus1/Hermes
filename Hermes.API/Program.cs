@@ -37,6 +37,8 @@ builder.Services.AddScoped<IServerDataService, ServerDataService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IElasticRepository, ElasticRepository>();
+builder.Services.AddScoped<IElasticService, ElasticService>();
 
 builder.Services.AddScoped<ITokenRepository>(provider =>
 {
