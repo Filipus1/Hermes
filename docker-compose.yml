@@ -1,7 +1,7 @@
 services:
   hermes.database:
-    image: postgres:latest
     container_name: hermes.database
+    image: postgres:latest
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER} 
@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CONNECTION_STRING=${CONNECTION_STRING}
+      - CONNECTION_STRING=Host=hermes.database;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - SMTP_SERVER=${SMTP_SERVER}
       - PORT=${PORT}
       - EMAIL_SENDER_USERNAME=${EMAIL_SENDER_USERNAME}
@@ -33,11 +33,43 @@ services:
       - ALARM_EMAIL=${ALARM_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - MONITORED_SERVER_URL=${MONITORED_SERVER_URL}
+      - DOCKER_BAN_LIST_PATH=${DOCKER_BAN_LIST_PATH}
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
     ports:
       - "8080:8080"
       - "8081:8081"
     volumes:
-      - ./banlist.txt:/app/banlist.txt
+      - ${BAN_LIST_PATH}:${DOCKER_BAN_LIST_PATH}
     depends_on:
       hermes.database:
         condition: service_healthy
+
+  elasticsearch:
+    container_name: elastic
+    image: elasticsearch:8.15.1
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./containers/elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+
+  logstash:
+    image: logstash:8.15.1
+    container_name: logstash
+    restart: always
+    volumes:
+      - ${LOG_PATH}:/logs.txt
+      - ./containers/logstash/pipeline/:/usr/share/logstash/pipeline/
+    command: logstash -r -f /usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+    ports:
+      - '9600:9600'
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m" 
+      xpack.monitoring.enabled: "false"  
+
+volumes: 
+  elasticsearch-data:
