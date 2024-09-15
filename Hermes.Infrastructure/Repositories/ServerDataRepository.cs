@@ -4,7 +4,6 @@ using Hermes.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hermes.Infrastructure.Repositories;
-
 public class ServerDataRepository : IServerDataRepository
 {
     private readonly AppDbContext _context;
