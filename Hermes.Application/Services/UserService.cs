@@ -4,41 +4,41 @@ using Hermes.Application.Entities;
 namespace Hermes.Application.Services;
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserRepository _repository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository repository)
     {
-        _userRepository = userRepository;
+        _repository = repository;
     }
 
     public async Task Create(User user)
     {
-        await _userRepository.CreateUser(user);
+        await _repository.CreateUser(user);
     }
 
     public async Task Delete(List<User> usersToDelete)
     {
-        await _userRepository.DeleteUsers(usersToDelete);
+        await _repository.DeleteUsers(usersToDelete);
     }
 
     public async Task<User?> Get(Guid userGuid)
     {
-        return await _userRepository.GetUserByGuid(userGuid);
+        return await _repository.GetUserByGuid(userGuid);
     }
 
     public async Task<User?> Get(string email, string password)
     {
-        return await _userRepository.GetUserByCredentials(email, password);
+        return await _repository.GetUserByCredentials(email, password);
     }
 
     public async Task<User?> Get(string email)
     {
-        return await _userRepository.GetUserByEmail(email);
+        return await _repository.GetUserByEmail(email);
     }
 
     public async Task<IEnumerable<User>> GetAll()
     {
-        return await _userRepository.GetUsers();
+        return await _repository.GetUsers();
     }
 
     public async Task<IEnumerable<User>> GetCollaborators()
