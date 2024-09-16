@@ -1,4 +1,4 @@
-namespace Hermes.Infrastructure.FileHandler;
+namespace Hermes.Infrastructure.BanListFileHandler;
 public class BanListFileHandler
 {
     public async Task<string> ReadFile()

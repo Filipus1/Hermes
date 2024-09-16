@@ -7,7 +7,7 @@ using Hermes.Infrastructure.Context.Extension;
 using Hermes.Infrastructure.CronJobs.Extension;
 using Hermes.Infrastructure.Email;
 using Hermes.Infrastructure.Factory;
-using Hermes.Infrastructure.FileHandler;
+using Hermes.Infrastructure.BanListFileHandler;
 using Hermes.Infrastructure.BanListConverter;
 using Hermes.Infrastructure.Mapper;
 using Hermes.Infrastructure.Repositories;
