@@ -1,7 +1,6 @@
 using Hermes.Application.Entities;
 
 namespace Hermes.Application.Abstraction;
-
 public interface IServerDataRepository
 {
     public Task AddServerData(ServerData serverData);
