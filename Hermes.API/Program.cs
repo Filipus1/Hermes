@@ -30,7 +30,7 @@ builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddSingleton<BanListConverter>();
 builder.Services.AddSingleton<CookieManager>();
-builder.Services.AddSingleton<FileHandler>();
+builder.Services.AddSingleton<BanListFileHandler>();
 
 builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IServerDataService, ServerDataService>();

@@ -10,9 +10,9 @@ namespace Hermes.API.Controllers;
 public class BanListController : Controller
 {
     private readonly BanListConverter _converter;
-    private readonly FileHandler _fileHandler;
+    private readonly BanListFileHandler _fileHandler;
 
-    public BanListController(BanListConverter converter, FileHandler fileHandler)
+    public BanListController(BanListConverter converter, BanListFileHandler fileHandler)
     {
         _converter = converter;
         _fileHandler = fileHandler;

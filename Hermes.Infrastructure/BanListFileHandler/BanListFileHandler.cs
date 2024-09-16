@@ -1,5 +1,5 @@
 namespace Hermes.Infrastructure.FileHandler;
-public class FileHandler
+public class BanListFileHandler
 {
     public async Task<string> ReadFile()
     {
