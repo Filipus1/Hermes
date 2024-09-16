@@ -41,9 +41,9 @@ public class ElasticRepository : IElasticRepository
             return response.Documents.ToList();
         }
 
-        catch
+        catch (Exception ex)
         {
-            Console.WriteLine("Index does not exist");
+            Console.WriteLine(ex);
             return new List<ElasticLog?>();
         }
     }
