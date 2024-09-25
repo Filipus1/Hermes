@@ -40,7 +40,6 @@ public class ServerDataRepository : IServerDataRepository
           .ToListAsync();
     }
 
-
     public async Task DeleteExpired()
     {
         var serverDataList = await _context.ServerDatas.ToListAsync();
