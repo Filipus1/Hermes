@@ -18,7 +18,6 @@ public class TokenRepository : ITokenRepository
 
     public async Task<InvitationToken?> CreateToken(string email)
     {
-
         var token = _generator.GenerateToken();
 
         var invitationToken = new InvitationToken
@@ -48,7 +47,20 @@ public class TokenRepository : ITokenRepository
             return;
         }
 
-        searchedToken.IsUsed = true;
+        DotNetEnv.Env.Load("../.env");
+
+        var testToken = Environment.GetEnvironmentVariable("VALIDATION_TOKEN");
+
+        if (testToken == null)
+        {
+            throw new Exception();
+        }
+
+        if (searchedToken.Token != testToken)
+        {
+            searchedToken.IsUsed = true;
+        }
+
         await _context.SaveChangesAsync();
     }
 

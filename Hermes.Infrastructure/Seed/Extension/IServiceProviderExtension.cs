@@ -1,11 +1,48 @@
 ﻿using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
+using Hermes.Infrastructure.Factory;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hermes.Infrastructure.Seed;
 public static class IServiceProviderExtension
 {
+    public static async Task SeedToken(this IServiceProvider service)
+    {
+        string environment = Environment.GetEnvironmentVariable("ENVIRONMENT")!;
+        System.Console.WriteLine("LOG 1");
+        if (environment == "Production")
+        {
+            return;
+        }
+
+        using var scope = service.CreateScope();
+
+        var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
+        var factory = scope.ServiceProvider.GetRequiredService<AppContextFactory>();
+        var context = factory.CreateDbContext([]);
+
+        string token = Environment.GetEnvironmentVariable("VALIDATION_TOKEN")!;
+        System.Console.WriteLine("LOG 2");
+
+        if (await tokenService.Get(token) != null)
+        {
+            return;
+        }
+
+        var validationToken = new InvitationToken
+        {
+            CreatedBy = "Admin",
+            Token = token,
+            IsUsed = false,
+            ExpiryDate = DateTime.UtcNow.AddYears(100)
+        };
+        System.Console.WriteLine("LOG 3");
+
+        await context.InvitationTokens.AddAsync(validationToken);
+        await context.SaveChangesAsync();
+    }
+
     public static async Task SeedAdminUser(this IServiceProvider service)
     {
         using var scope = service.CreateScope();

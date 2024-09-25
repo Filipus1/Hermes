@@ -116,6 +116,8 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.ApplyMigrations(args);
+
 await app.Services.SeedAdminUser();
+await app.Services.SeedToken();
 
 app.Run();
