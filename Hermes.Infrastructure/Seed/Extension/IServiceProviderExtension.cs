@@ -10,7 +10,6 @@ public static class IServiceProviderExtension
     public static async Task SeedToken(this IServiceProvider service)
     {
         string environment = Environment.GetEnvironmentVariable("ENVIRONMENT")!;
-        System.Console.WriteLine("LOG 1");
         if (environment == "Production")
         {
             return;
@@ -23,7 +22,6 @@ public static class IServiceProviderExtension
         var context = factory.CreateDbContext([]);
 
         string token = Environment.GetEnvironmentVariable("VALIDATION_TOKEN")!;
-        System.Console.WriteLine("LOG 2");
 
         if (await tokenService.Get(token) != null)
         {
@@ -37,7 +35,6 @@ public static class IServiceProviderExtension
             IsUsed = false,
             ExpiryDate = DateTime.UtcNow.AddYears(100)
         };
-        System.Console.WriteLine("LOG 3");
 
         await context.InvitationTokens.AddAsync(validationToken);
         await context.SaveChangesAsync();
