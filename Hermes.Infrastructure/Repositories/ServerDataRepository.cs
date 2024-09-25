@@ -53,5 +53,4 @@ public class ServerDataRepository : IServerDataRepository
             await _context.SaveChangesAsync();
         }
     }
-
 }
