@@ -15,10 +15,18 @@ public class ServerMonitorController : Controller
         _serverDataService = serverDataService;
     }
 
-    [HttpGet("get/data")]
+    [HttpGet]
     public async Task<IActionResult> GetServerData()
     {
-        var data = await _serverDataService.Get();
+        var data = await _serverDataService.GetLatestServerData();
+
+        return Ok(data);
+    }
+
+    [HttpGet("players")]
+    public async Task<IActionResult> GetRecentPlayers()
+    {
+        var data = await _serverDataService.GetRecentPlayersData();
 
         return Ok(data);
     }
@@ -37,7 +45,7 @@ public class ServerMonitorController : Controller
 
         catch (Exception)
         {
-            return BadRequest(new { message = "Offline" });
+            return Ok(new { message = "Offline" });
         }
     }
 }
