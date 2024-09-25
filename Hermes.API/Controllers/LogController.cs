@@ -15,7 +15,7 @@ public class LogController : Controller
     }
 
     [Authorize]
-    [HttpGet("get-log/{key}")]
+    [HttpGet("{key}")]
     public async Task<IActionResult> GetLog(string key)
     {
         var log = await _elasticService.Get(key);
@@ -24,11 +24,20 @@ public class LogController : Controller
     }
 
     [Authorize]
-    [HttpGet("get-logs/{pageNumber}/{pageSize}")]
-    public async Task<IActionResult> GetPaginatedLogs(int pageNumber, int pageSize)
+    [HttpGet]
+    public async Task<IActionResult> GetPaginatedLogs([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 20)
     {
         var logs = await _elasticService.GetPaginated(pageNumber, pageSize);
 
-        return Ok(logs);
+        return Ok(new { logs, logs.CurrentPage, logs.PageSize, logs.TotalCount, logs.TotalPages, logs.HasPreviousPage, logs.HasNextPage });
+    }
+
+    [Authorize]
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchPaginatedLogs([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 20, [FromQuery] string message = "")
+    {
+        var logs = await _elasticService.SearchPaginated(pageNumber, pageSize, message);
+
+        return Ok(new { logs, logs.CurrentPage, logs.PageSize, logs.TotalCount, logs.TotalPages, logs.HasPreviousPage, logs.HasNextPage });
     }
 }

@@ -7,14 +7,27 @@ public class AppContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        DotNetEnv.Env.Load("../.env");
-
-        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
+        string connectionString = GetConnectionString();
         optionsBuilder.UseNpgsql(connectionString);
 
         return new AppDbContext(optionsBuilder.Options);
+    }
+
+    private string GetConnectionString()
+    {
+        DotNetEnv.Env.Load("../.env");
+
+        var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
+
+        if (environment == "Production")
+        {
+            return Environment.GetEnvironmentVariable("CONNECTION_STRING")!;
+        }
+        else
+        {
+            return Environment.GetEnvironmentVariable("TEST_CONNECTION_STRING")!;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using Elastic.Clients.Elasticsearch;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
+using Hermes.Infrastructure.Pagination;
 
 namespace Hermes.Infrastructure.Repositories;
 public class ElasticRepository : IElasticRepository
@@ -27,24 +28,71 @@ public class ElasticRepository : IElasticRepository
         return response.Source;
     }
 
-    public async Task<IEnumerable<ElasticLog?>> GetPaginated(int pageNumber, int pageSize)
+    public async Task<PaginatedList<ElasticLog>> GetPaginated(int pageNumber, int pageSize)
     {
         try
         {
-            int from = (pageNumber - 1) * pageSize;
-            var response = await _client.SearchAsync<ElasticLog>((g) =>
-            g.Index(INDEX_NAME)
-            .From(from)
-            .Size(pageSize)
-            );
+            int from = pageNumber * pageSize;
+            var response = await _client.SearchAsync<ElasticLog>((s) =>
+                s.Index(INDEX_NAME)
+                .From(from)
+                .Size(pageSize));
 
-            return response.Documents.ToList();
+            var source = response.Documents.ToList();
+            var totalCount = response.Total;
+
+            PaginatedList<ElasticLog> list = new(source, pageNumber, pageSize, totalCount);
+
+            return list;
         }
 
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            return new List<ElasticLog?>();
+            return new PaginatedList<ElasticLog>();
+        }
+    }
+
+    public async Task<PaginatedList<ElasticLog>> SearchPaginated(int pageNumber, int pageSize, string message)
+    {
+        try
+        {
+            int from = pageNumber * pageSize;
+
+            var response = string.IsNullOrEmpty(message) ? await _client.SearchAsync<ElasticLog>(s => s
+                  .Index(INDEX_NAME)
+                  .From(from)
+                  .Size(pageSize)
+                  .Query(q => q
+                      .MatchAll(m => m.QueryName("message")
+                      )
+                  )
+               )
+           :
+          await _client.SearchAsync<ElasticLog>(s => s
+                .Index(INDEX_NAME)
+                .From(from)
+                .Size(pageSize)
+                .Query(q => q
+                    .MatchPhrasePrefix(mpp => mpp
+                    .Field("message"!)
+                    .Query(message)
+                    )
+                )
+        );
+
+            var source = response.Documents.ToList();
+            var totalCount = response.Total;
+
+            PaginatedList<ElasticLog> list = new(source, pageNumber, pageSize, totalCount);
+
+            return list;
+        }
+
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return new PaginatedList<ElasticLog>();
         }
     }
 }

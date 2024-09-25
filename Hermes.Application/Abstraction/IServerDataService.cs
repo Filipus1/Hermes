@@ -4,6 +4,7 @@ namespace Hermes.Application.Abstraction;
 public interface IServerDataService
 {
     public Task Add(ServerData serverData);
-    public Task<IEnumerable<ServerData>> Get();
+    public Task<IEnumerable<PlayerData>> GetRecentPlayersData();
+    public Task<ServerData?> GetLatestServerData();
     public Task DeleteExpired();
 }

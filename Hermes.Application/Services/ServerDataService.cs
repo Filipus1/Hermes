@@ -16,13 +16,18 @@ public class ServerDataService : IServerDataService
         await _repository.AddServerData(serverData);
     }
 
-    public async Task<IEnumerable<ServerData>> Get()
-    {
-        return await _repository.GetServerData();
-    }
-
     public async Task DeleteExpired()
     {
         await _repository.DeleteExpired();
+    }
+
+    public async Task<IEnumerable<PlayerData>> GetRecentPlayersData()
+    {
+        return await _repository.GetRecentPlayersData();
+    }
+
+    public async Task<ServerData?> GetLatestServerData()
+    {
+        return await _repository.GetLatestServerData();
     }
 }

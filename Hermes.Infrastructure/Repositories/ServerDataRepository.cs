@@ -20,13 +20,26 @@ public class ServerDataRepository : IServerDataRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<ServerData>> GetServerData()
+    public async Task<ServerData?> GetLatestServerData()
     {
         return await _context.ServerDatas
-            .OrderBy(sd => sd.Id)
-            .Take(24)
-            .ToListAsync();
+            .OrderByDescending(sd => sd.Created)
+            .FirstOrDefaultAsync();
     }
+
+    public async Task<IEnumerable<PlayerData>> GetRecentPlayersData()
+    {
+        return await _context.ServerDatas
+          .OrderBy(sd => sd.Created)
+          .Take(24)
+             .Select(sd => new PlayerData
+             {
+                 Players = sd.Players,
+                 Created = sd.Created
+             })
+          .ToListAsync();
+    }
+
 
     public async Task DeleteExpired()
     {
@@ -40,4 +53,5 @@ public class ServerDataRepository : IServerDataRepository
             await _context.SaveChangesAsync();
         }
     }
+
 }
