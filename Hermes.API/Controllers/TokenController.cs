@@ -22,22 +22,22 @@ public class TokenController : Controller
     {
         var invitationToken = await _tokenService.Create(dto.CreatedBy);
 
-        return Ok(new { token = invitationToken!.Token, createdBy = invitationToken!.CreatedBy });
+        return Ok(new { token = invitationToken!.Token });
     }
 
-    [HttpPost]
+    [HttpGet]
     [Route("validate")]
-    public async Task<IActionResult> ValidateInviteToken([FromBody] TokenDto dto)
+    public async Task<IActionResult> ValidateInviteToken([FromQuery] string token)
     {
-        var validation = await _tokenService.Validate(dto.Token);
+        var validation = await _tokenService.Validate(token);
 
         if (validation)
         {
-            var token = await _tokenService.Get(dto.Token);
+            var searchedToken = await _tokenService.Get(token);
 
-            return Ok(new { createdBy = token!.CreatedBy });
+            return Ok(new { createdBy = searchedToken?.CreatedBy });
         }
 
-        return BadRequest(new { message = $"Token {dto.Token} is not valid" });
+        return BadRequest(new { message = $"Token {token} is not valid" });
     }
 }
