@@ -28,7 +28,7 @@ public class BanListController : Controller
         return Ok(jsonBanList);
     }
 
-    [HttpPost("players/update")]
+    [HttpPost("players")]
     public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayersDto> dto)
     {
         string jsonString = JsonSerializer.Serialize(dto);

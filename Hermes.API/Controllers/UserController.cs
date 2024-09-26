@@ -62,7 +62,7 @@ public class UserController : Controller
     }
 
     [Authorize(Roles = "admin")]
-    [HttpDelete("collaborator/remove")]
+    [HttpDelete("collaborators")]
     public async Task<IActionResult> DeleteUser([FromBody] List<CollaboratorDto> dto)
     {
         if (dto == null || dto.Count == 0)
