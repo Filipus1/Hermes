@@ -1,33 +1,26 @@
 using Microsoft.Extensions.Options;
 using Quartz;
 
-namespace Hermes.Infrastructure.CronJobs;
-public class CronJobSetup : IConfigureOptions<QuartzOptions>
+namespace Hermes.Infrastructure.CronJobs
 {
-    public void Configure(QuartzOptions options)
+    public class CronJobSetup : IConfigureOptions<QuartzOptions>
     {
-        var serverDataJobKey = JobKey.Create(nameof(ServerDataJob));
-        options
-            .AddJob<ServerDataJob>(JobBuilder => JobBuilder.WithIdentity(serverDataJobKey))
-            .AddTrigger(trigger =>
-            trigger.ForJob(serverDataJobKey)
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInHours(1).RepeatForever())
-            );
+        public void Configure(QuartzOptions options)
+        {
+            ConfigureJob<ServerDataJob>(options, nameof(ServerDataJob), TimeSpan.FromHours(1));
+            ConfigureJob<ServerHealthStatusJob>(options, nameof(ServerHealthStatusJob), TimeSpan.FromSeconds(10));
+            ConfigureJob<ServerDataExpiredJob>(options, nameof(ServerDataExpiredJob), TimeSpan.FromHours(24));
+        }
 
-        var serverHealthStatusJobKey = JobKey.Create(nameof(ServerHealthStatusJob));
-        options
-            .AddJob<ServerHealthStatusJob>(JobBuilder => JobBuilder.WithIdentity(serverHealthStatusJobKey))
-            .AddTrigger(trigger =>
-            trigger.ForJob(serverHealthStatusJobKey)
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(10).RepeatForever())
-            );
+        private void ConfigureJob<TJob>(QuartzOptions options, string jobName, TimeSpan interval) where TJob : IJob
+        {
+            var jobKey = JobKey.Create(jobName);
 
-        var serverDataExpiredJobKey = JobKey.Create(nameof(ServerDataExpiredJob));
-        options
-            .AddJob<ServerDataExpiredJob>(JobBuilder => JobBuilder.WithIdentity(serverDataExpiredJobKey))
-            .AddTrigger(trigger =>
-            trigger.ForJob(serverDataExpiredJobKey)
-            .WithSimpleSchedule(schedule => schedule.WithIntervalInHours(24).RepeatForever())
-            );
+            options.AddJob<TJob>(jobBuilder => jobBuilder.WithIdentity(jobKey))
+                   .AddTrigger(trigger =>
+                       trigger.ForJob(jobKey)
+                              .WithSimpleSchedule(schedule =>
+                                  schedule.WithInterval(interval).RepeatForever()));
+        }
     }
 }
