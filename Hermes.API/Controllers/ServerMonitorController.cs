@@ -1,4 +1,6 @@
 using Hermes.Application.Abstraction;
+using Hermes.Infrastructure.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
@@ -6,15 +8,16 @@ namespace Hermes.API.Controllers;
 [Route("api/server")]
 public class ServerMonitorController : Controller
 {
-    private readonly HttpClient _client;
+    private readonly HttpClientSender _httpClientSender;
     private readonly IServerDataService _serverDataService;
 
-    public ServerMonitorController(HttpClient client, IServerDataService serverDataService)
+    public ServerMonitorController(HttpClientSender httpClientSender, IServerDataService serverDataService)
     {
-        _client = client;
+        _httpClientSender = httpClientSender;
         _serverDataService = serverDataService;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetServerData()
     {
@@ -23,6 +26,7 @@ public class ServerMonitorController : Controller
         return Ok(data);
     }
 
+    [Authorize]
     [HttpGet("players")]
     public async Task<IActionResult> GetRecentPlayers()
     {
@@ -31,14 +35,13 @@ public class ServerMonitorController : Controller
         return Ok(data);
     }
 
+    [Authorize]
     [HttpGet("status")]
     public async Task<IActionResult> GetServerStatus()
     {
         try
         {
-            var url = Environment.GetEnvironmentVariable("MONITORED_SERVER_URL");
-
-            var response = await _client.GetStringAsync(url);
+            await _httpClientSender.Fetch();
 
             return Ok(new { message = "Online" });
         }

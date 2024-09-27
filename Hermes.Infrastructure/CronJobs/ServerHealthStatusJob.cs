@@ -1,4 +1,5 @@
 using Hermes.Application.Abstraction;
+using Hermes.Infrastructure.Helpers;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
@@ -6,23 +7,21 @@ namespace Hermes.Infrastructure.CronJobs;
 
 public class ServerHealthStatusJob : IJob
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClientSender _httpClientSender;
     private readonly IEmailSender _emailSender;
     private static DateTime? _lastAlarmEmailSendDate;
 
-    public ServerHealthStatusJob(HttpClient httpClient, IEmailSender emailSender)
+    public ServerHealthStatusJob(IEmailSender emailSender, HttpClientSender httpClientSender)
     {
-        _httpClient = httpClient;
         _emailSender = emailSender;
+        _httpClientSender = httpClientSender;
     }
 
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
-            var monitoredServerUrl = Environment.GetEnvironmentVariable("MONITORED_SERVER_URL");
-
-            await _httpClient.GetStringAsync(monitoredServerUrl);
+            await _httpClientSender.Fetch();
         }
 
         catch (Exception ex)

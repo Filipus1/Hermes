@@ -1,18 +1,19 @@
 using System.Text.Json;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
+using Hermes.Infrastructure.Helpers;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
 [DisallowConcurrentExecution]
 public class ServerDataJob : IJob
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClientSender _httpClientSender;
     private readonly IServerDataService _serverDataService;
 
-    public ServerDataJob(HttpClient httpClient, IServerDataService serverDataService)
+    public ServerDataJob(HttpClientSender httpClientSender, IServerDataService serverDataService)
     {
-        _httpClient = httpClient;
+        _httpClientSender = httpClientSender;
         _serverDataService = serverDataService;
     }
 
@@ -20,9 +21,7 @@ public class ServerDataJob : IJob
     {
         try
         {
-            var monitoredServerUrl = Environment.GetEnvironmentVariable("MONITORED_SERVER_URL");
-
-            var jsonResponse = await _httpClient.GetStringAsync(monitoredServerUrl);
+            var jsonResponse = await _httpClientSender.Fetch();
 
             var options = new JsonSerializerOptions
             {
