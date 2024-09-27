@@ -99,7 +99,7 @@ app.UseCors("cors-policy");
 app.UseAuthentication();
 app.UseAuthorization();
 
-if (Environment.GetEnvironmentVariable("ENVIRONMENT"!) == "Development")
+if (EnvironmentHelper.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

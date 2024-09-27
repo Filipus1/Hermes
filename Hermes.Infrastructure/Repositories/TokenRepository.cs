@@ -1,6 +1,7 @@
 ﻿using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Infrastructure.Context;
+using Hermes.Infrastructure.Helpers;
 using Hermes.Infrastructure.TokenGenerator;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,18 +48,14 @@ public class TokenRepository : ITokenRepository
             return;
         }
 
-        DotNetEnv.Env.Load("../.env");
-
-        var testToken = Environment.GetEnvironmentVariable("VALIDATION_TOKEN");
-
-        if (testToken == null)
+        if (EnvironmentHelper.IsDevelopment())
         {
-            throw new Exception();
-        }
+            var testToken = EnvironmentHelper.GetValidationToken();
 
-        if (searchedToken.Token != testToken)
-        {
-            searchedToken.IsUsed = true;
+            if (searchedToken.Token != testToken)
+            {
+                searchedToken.IsUsed = true;
+            }
         }
 
         await _context.SaveChangesAsync();
@@ -68,11 +65,6 @@ public class TokenRepository : ITokenRepository
     {
         var invitationToken = await GetToken(token);
 
-        if (invitationToken == null || invitationToken.IsUsed || DateTime.UtcNow >= invitationToken.ExpiryDate)
-        {
-            return false;
-        }
-
-        return true;
+        return !(invitationToken == null || invitationToken.IsUsed || DateTime.UtcNow >= invitationToken.ExpiryDate);
     }
 }

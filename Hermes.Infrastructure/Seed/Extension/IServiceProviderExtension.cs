@@ -1,6 +1,7 @@
 ﻿using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 using Hermes.Infrastructure.Factory;
+using Hermes.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +22,7 @@ public static class IServiceProviderExtension
         var factory = scope.ServiceProvider.GetRequiredService<AppContextFactory>();
         var context = factory.CreateDbContext([]);
 
-        string token = Environment.GetEnvironmentVariable("VALIDATION_TOKEN")!;
+        string token = EnvironmentHelper.GetValidationToken()!;
 
         if (await tokenService.Get(token) != null)
         {
