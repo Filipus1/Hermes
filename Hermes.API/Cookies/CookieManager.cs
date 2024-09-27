@@ -13,18 +13,9 @@ public class CookieManager
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-        var activeClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Anonymous, "")
-            };
-
         var authIdentity = new ClaimsIdentity(authClaims, "auth-scheme");
         var authPrincipal = new ClaimsPrincipal(authIdentity);
         await httpContext.SignInAsync("auth-scheme", authPrincipal);
-
-        var activeIdentity = new ClaimsIdentity(activeClaims, "active-scheme");
-        var activePrincipal = new ClaimsPrincipal(activeIdentity);
-        await httpContext.SignInAsync("active-scheme", activePrincipal);
     }
 
     public async Task RemoveAuthorizationCookies(HttpContext httpContext)

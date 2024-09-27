@@ -74,13 +74,6 @@ builder.Services.AddAuthentication("auth-scheme")
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.Cookie.SameSite = SameSiteMode.Lax;
-    })
-    .AddCookie("active-scheme", options =>
-    {
-        options.Cookie.Name = "active";
-        options.Cookie.HttpOnly = false;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        options.Cookie.SameSite = SameSiteMode.Lax;
     });
 
 builder.Services.AddAuthorization();
