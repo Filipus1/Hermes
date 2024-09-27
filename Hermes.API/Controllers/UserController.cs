@@ -1,7 +1,10 @@
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
-using Hermes.Infrastructure.Dto;
+using Hermes.Application.Services;
+using Hermes.Application.Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +16,14 @@ public class UserController : Controller
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
+    private readonly IValidator<User> _validator;
 
-    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper)
+    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper, IValidator<User> validator)
     {
         _userService = userService;
         _tokenService = tokenService;
         _mapper = mapper;
+        _validator = validator;
     }
 
     [HttpPost("register")]
@@ -31,16 +36,13 @@ public class UserController : Controller
             return BadRequest("Invalid token");
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         User user = _mapper.Map<User>(dto);
 
-        if (await _userService.Get(user.Email) != null)
+        var validationResult = await _validator.ValidateAsync(user);
+
+        if (!validationResult.IsValid)
         {
-            return Conflict(new { message = "An account with this email already exists" });
+            return ValidationProblem(new ValidationProblemDetails(validationResult.ToDictionary()));
         }
 
         await _userService.Create(user);

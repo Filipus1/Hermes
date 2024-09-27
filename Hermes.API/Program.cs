@@ -15,6 +15,8 @@ using Hermes.Infrastructure.Seed;
 using Hermes.Infrastructure.TokenGenerator;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
+using Hermes.Infrastructure.Helpers;
+using Hermes.Application.Services.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load("../.env");
@@ -23,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddHttpClient();
+builder.Services.AddFluentValidation();
 
 builder.Services.AddSingleton<AppContextFactory>();
 builder.Services.AddSingleton<IEmailConfig, EmailConfig>();

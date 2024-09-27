@@ -10,4 +10,5 @@ public interface IUserRepository
     Task CreateUser(User user);
     Task DeleteUsers(List<User> usersToDelete);
     Task UpdateUser(User user);
+    Task<bool> IsEmailUnique(string email);
 }
