@@ -27,8 +27,16 @@ public class UserService : IUserService
         await _repository.CreateUser(user);
     }
 
-    public async Task Delete(List<User> usersToDelete)
+    public async Task Delete(List<CollaboratorDto> dto)
     {
+        var allUsers = await GetAll();
+
+        var emails = dto.Select(dto => dto.Email).ToList();
+
+        var usersToDelete = allUsers
+            .Where(u => emails.Contains(u.Email))
+            .ToList();
+
         await _repository.DeleteUsers(usersToDelete);
     }
 

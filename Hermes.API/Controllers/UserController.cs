@@ -1,7 +1,6 @@
 using AutoMapper;
 using FluentValidation;
 using Hermes.Application.Abstraction;
-using Hermes.Application.Entities;
 using Hermes.Application.Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +12,15 @@ public class UserController : Controller
 {
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
-    private readonly IValidator<RegisterDto> _validator;
+    private readonly IValidator<RegisterDto> _userValidator;
+    private readonly IValidator<List<CollaboratorDto>> _collaboratorValidator;
 
-    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator)
+    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> userValidator, IValidator<List<CollaboratorDto>> collaboratorValidator)
     {
         _userService = userService;
         _tokenService = tokenService;
-        _validator = validator;
+        _userValidator = userValidator;
+        _collaboratorValidator = collaboratorValidator;
     }
 
     [HttpPost("register")]
@@ -32,7 +33,7 @@ public class UserController : Controller
             return BadRequest("Invalid token");
         }
 
-        var userValidationResult = await _validator.ValidateAsync(dto);
+        var userValidationResult = await _userValidator.ValidateAsync(dto);
 
         if (!userValidationResult.IsValid)
         {
@@ -58,25 +59,14 @@ public class UserController : Controller
     [HttpDelete("collaborators")]
     public async Task<IActionResult> DeleteUser([FromBody] List<CollaboratorDto> dto)
     {
-        if (dto == null || dto.Count == 0)
+        var collaboratorValidationResult = await _collaboratorValidator.ValidateAsync(dto);
+
+        if (!collaboratorValidationResult.IsValid)
         {
-            return BadRequest("No collaborators provided.");
+            return ValidationProblem(new ValidationProblemDetails(collaboratorValidationResult.ToDictionary()));
         }
 
-        var allUsers = await _userService.GetAll();
-
-        var emails = dto.Select(dto => dto.Email).ToList();
-
-        var usersToDelete = allUsers
-            .Where(u => emails.Contains(u.Email))
-            .ToList();
-
-        if (usersToDelete.Count == 0)
-        {
-            return NotFound("No users found to delete.");
-        }
-
-        await _userService.Delete(usersToDelete);
+        await _userService.Delete(dto);
 
         return Ok(new { message = "Users have been deleted" });
     }

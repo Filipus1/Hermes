@@ -1,4 +1,5 @@
 using FluentValidation;
+using Hermes.Application.Services.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hermes.Application.Services.Extension;

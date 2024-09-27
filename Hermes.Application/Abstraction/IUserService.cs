@@ -6,7 +6,7 @@ public interface IUserService
 {
     public Task Create(RegisterDto dto);
     public Task Create(User user);
-    public Task Delete(List<User> usersToDelete);
+    public Task Delete(List<CollaboratorDto> dto);
     public Task<User?> Get(Guid userGuid);
     public Task<User?> Get(string email, string password);
     public Task<User?> Get(string email);
