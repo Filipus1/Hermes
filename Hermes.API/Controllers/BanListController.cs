@@ -3,6 +3,7 @@ using Hermes.Application.Entities.Dto;
 using Hermes.Infrastructure.BanListFileHandler;
 using Hermes.Infrastructure.BanListConverter;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hermes.API.Controllers;
 [ApiController]
@@ -18,6 +19,7 @@ public class BanListController : Controller
         _fileHandler = fileHandler;
     }
 
+    [Authorize]
     [HttpGet("players")]
     public async Task<IActionResult> GetBannedPlayers()
     {
@@ -28,6 +30,7 @@ public class BanListController : Controller
         return Ok(jsonBanList);
     }
 
+    [Authorize]
     [HttpPost("players")]
     public async Task<IActionResult> UpdateBannedPlayers([FromBody] List<BannedPlayersDto> dto)
     {

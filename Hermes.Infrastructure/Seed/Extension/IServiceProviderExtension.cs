@@ -56,7 +56,7 @@ public static class IServiceProviderExtension
         string adminEmail = Environment.GetEnvironmentVariable("ADMIN_EMAIL")!;
         string adminPassword = Environment.GetEnvironmentVariable("ADMIN_PASSWORD")!;
 
-        var existingAdmin = await userService.Get(adminEmail);
+        var existingAdmin = await userService.GetUserByEmail(adminEmail);
 
         if (existingAdmin != null)
         {

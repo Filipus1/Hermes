@@ -40,17 +40,17 @@ public class UserService : IUserService
         await _repository.DeleteUsers(usersToDelete);
     }
 
-    public async Task<User?> Get(Guid userGuid)
+    public async Task<User?> GetUserbyGuid(Guid userGuid)
     {
         return await _repository.GetUserByGuid(userGuid);
     }
 
-    public async Task<User?> Get(string email, string password)
+    public async Task<User?> GetUser(UserDto dto)
     {
-        return await _repository.GetUserByCredentials(email, password);
+        return await _repository.GetUserByCredentials(dto.Email, dto.Password);
     }
 
-    public async Task<User?> Get(string email)
+    public async Task<User?> GetUserByEmail(string email)
     {
         return await _repository.GetUserByEmail(email);
     }

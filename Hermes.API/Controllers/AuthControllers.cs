@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using FluentValidation;
 using Hermes.API.Cookies;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities.Dto;
@@ -11,11 +12,14 @@ public class AuthController : Controller
 {
     private readonly IUserService _userService;
     private readonly CookieManager _cookieManager;
+    private readonly IValidator<UserDto> _authValidator;
 
-    public AuthController(IUserService userService, CookieManager cookieManager)
+
+    public AuthController(IUserService userService, CookieManager cookieManager, IValidator<UserDto> authValidator)
     {
         _userService = userService;
         _cookieManager = cookieManager;
+        _authValidator = authValidator;
     }
 
     [HttpGet("check")]
@@ -31,7 +35,7 @@ public class AuthController : Controller
 
         var guid = new Guid(stringGuid!);
 
-        var user = await _userService.Get(guid);
+        var user = await _userService.GetUserbyGuid(guid);
 
         return Ok(new { message = "User is authenticated", role, email = user!.Email });
     }
@@ -47,15 +51,17 @@ public class AuthController : Controller
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserDto dto)
     {
-        var user = await _userService.Get(dto.Email, dto.Password);
+        var authValidationResult = await _authValidator.ValidateAsync(dto);
 
-        if (user == null)
+        if (!authValidationResult.IsValid)
         {
-            return Unauthorized(new { message = "User email or password is incorrect!" });
+            return ValidationProblem(new ValidationProblemDetails(authValidationResult.ToDictionary()));
         }
 
-        await _cookieManager.SetAuthorizationCookies(user, HttpContext);
+        var registeredUser = await _userService.GetUser(dto);
 
-        return Ok(new { message = "User has logged in successfully", role = user.Role, email = user.Email });
+        await _cookieManager.SetAuthorizationCookies(registeredUser!, HttpContext);
+
+        return Ok(new { message = "User has logged in successfully", role = registeredUser!.Role, email = registeredUser.Email });
     }
 }

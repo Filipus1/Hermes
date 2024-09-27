@@ -10,6 +10,7 @@ public class UserDeleteValidationService : AbstractValidator<List<CollaboratorDt
 
         RuleForEach(collabList => collabList)
             .Must(collab => collab.Role != "admin")
-            .WithMessage("Cannot delete admin users");
+            .WithMessage("Cannot delete admin users")
+            .WithName("deleteCollaborator");
     }
 }

@@ -21,6 +21,5 @@ public class CookieManager
     public async Task RemoveAuthorizationCookies(HttpContext httpContext)
     {
         await httpContext.SignOutAsync("auth-scheme");
-        await httpContext.SignOutAsync("active-scheme");
     }
 }

@@ -8,7 +8,7 @@ namespace Hermes.Infrastructure.CronJobs
         public void Configure(QuartzOptions options)
         {
             ConfigureJob<ServerDataJob>(options, nameof(ServerDataJob), TimeSpan.FromHours(1));
-            ConfigureJob<ServerHealthStatusJob>(options, nameof(ServerHealthStatusJob), TimeSpan.FromSeconds(10));
+            ConfigureJob<ServerHealthStatusJob>(options, nameof(ServerHealthStatusJob), TimeSpan.FromMinutes(1));
             ConfigureJob<ServerDataExpiredJob>(options, nameof(ServerDataExpiredJob), TimeSpan.FromHours(24));
         }
 
