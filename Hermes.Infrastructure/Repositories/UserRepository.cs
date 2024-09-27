@@ -73,6 +73,11 @@ public class UserRepository : IUserRepository
         return !await _context.Users.AnyAsync(u => u.Email == email);
     }
 
+    public async Task<bool> IsUserRegistered(string email)
+    {
+        return await _context.Users.AnyAsync(u => u.Email == email);
+    }
+
     public async Task UpdateUser(User user)
     {
         _context.Users.Update(user);
