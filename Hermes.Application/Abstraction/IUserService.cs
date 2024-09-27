@@ -4,6 +4,7 @@ using Hermes.Application.Entities.Dto;
 namespace Hermes.Application.Abstraction;
 public interface IUserService
 {
+    public Task Create(RegisterDto dto);
     public Task Create(User user);
     public Task Delete(List<User> usersToDelete);
     public Task<User?> Get(Guid userGuid);

@@ -1,9 +1,9 @@
 using FluentValidation;
 using Hermes.Application.Abstraction;
-using Hermes.Application.Entities;
+using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services;
-public class UserValidationService : AbstractValidator<User>
+public class UserValidationService : AbstractValidator<RegisterDto>
 {
     public UserValidationService(IUserRepository repository)
     {

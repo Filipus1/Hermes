@@ -13,14 +13,12 @@ public class UserController : Controller
 {
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
-    private readonly IMapper _mapper;
-    private readonly IValidator<User> _validator;
+    private readonly IValidator<RegisterDto> _validator;
 
-    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper, IValidator<User> validator)
+    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator)
     {
         _userService = userService;
         _tokenService = tokenService;
-        _mapper = mapper;
         _validator = validator;
     }
 
@@ -34,16 +32,14 @@ public class UserController : Controller
             return BadRequest("Invalid token");
         }
 
-        User user = _mapper.Map<User>(dto);
-
-        var userValidationResult = await _validator.ValidateAsync(user);
+        var userValidationResult = await _validator.ValidateAsync(dto);
 
         if (!userValidationResult.IsValid)
         {
             return ValidationProblem(new ValidationProblemDetails(userValidationResult.ToDictionary()));
         }
 
-        await _userService.Create(user);
+        await _userService.Create(dto);
         await _tokenService.MarkTokenAsUsed(dto.Token);
 
         return Ok(new { message = "User has been created successfully" });
