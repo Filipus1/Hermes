@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Hermes.API.Controllers;
+
 [ApiController]
 [Route("api/ban")]
 public class BanListController : Controller

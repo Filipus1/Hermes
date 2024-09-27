@@ -6,6 +6,7 @@ using MimeKit;
 using MimeKit.Text;
 
 namespace Hermes.Infrastructure.Email;
+
 public class EmailSender : IEmailSender
 {
     private readonly MimeMessage _message;

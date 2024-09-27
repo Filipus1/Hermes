@@ -4,6 +4,7 @@ using Hermes.Application.Entities;
 using Hermes.Infrastructure.Pagination;
 
 namespace Hermes.Infrastructure.Repositories;
+
 public class ElasticRepository : IElasticRepository
 {
     private const string INDEX_NAME = "npm-logs";

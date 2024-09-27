@@ -2,6 +2,7 @@ using Hermes.Application.Entities;
 using Hermes.Infrastructure.Pagination;
 
 namespace Hermes.Application.Abstraction;
+
 public interface IElasticService
 {
     Task<ElasticLog?> Get(string key);

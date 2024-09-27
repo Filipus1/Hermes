@@ -3,8 +3,8 @@ using Hermes.Infrastructure.Helpers;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
-[DisallowConcurrentExecution]
 
+[DisallowConcurrentExecution]
 public class ServerHealthStatusJob : IJob
 {
     private readonly HttpClientSender _httpClientSender;

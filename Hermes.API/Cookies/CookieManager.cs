@@ -3,6 +3,7 @@ using Hermes.Application.Entities;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Hermes.API.Cookies;
+
 public class CookieManager
 {
     public async Task SetAuthorizationCookies(User user, HttpContext httpContext)

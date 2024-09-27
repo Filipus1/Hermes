@@ -1,4 +1,5 @@
 namespace Hermes.Application.Entities.Dto;
+
 public record UserDto
 {
     public string Email { get; set; } = string.Empty;

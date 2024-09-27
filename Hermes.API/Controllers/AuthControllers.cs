@@ -6,6 +6,7 @@ using Hermes.Application.Entities.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
+
 [ApiController]
 [Route("api/auth")]
 public class AuthController : Controller

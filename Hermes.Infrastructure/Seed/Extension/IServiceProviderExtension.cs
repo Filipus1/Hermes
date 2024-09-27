@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hermes.Infrastructure.Seed;
+
 public static class IServiceProviderExtension
 {
     public static async Task SeedToken(this IServiceProvider service)

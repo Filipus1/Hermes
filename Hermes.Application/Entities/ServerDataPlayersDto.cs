@@ -1,4 +1,5 @@
 namespace Hermes.Application.Entities;
+
 public record PlayerData
 {
     public int Players { get; set; }

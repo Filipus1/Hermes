@@ -1,4 +1,5 @@
 namespace Hermes.Infrastructure.Helpers;
+
 public static class EnvironmentHelper
 {
     public static string? GetValidationToken()

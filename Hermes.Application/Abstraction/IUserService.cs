@@ -2,6 +2,7 @@ using Hermes.Application.Entities;
 using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Abstraction;
+
 public interface IUserService
 {
     public Task Create(RegisterDto dto);

@@ -2,6 +2,7 @@
 using Hermes.Application.Entities;
 
 namespace Hermes.Application.Services;
+
 public class TokenService : ITokenService
 {
     private readonly ITokenRepository _repository;

@@ -1,4 +1,5 @@
 namespace Hermes.Infrastructure.Helpers;
+
 public class HttpClientSender
 {
     private readonly HttpClient _client;

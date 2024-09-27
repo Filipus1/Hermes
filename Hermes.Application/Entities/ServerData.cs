@@ -1,6 +1,7 @@
 using System.Globalization;
 
 namespace Hermes.Application.Entities;
+
 public class ServerData
 {
     public int Id { get; set; }

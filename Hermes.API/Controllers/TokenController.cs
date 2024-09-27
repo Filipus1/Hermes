@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
+
 [ApiController]
 [Route("api/invite")]
 public class TokenController : Controller

@@ -2,6 +2,7 @@ using Hermes.Application.Abstraction;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
+
 [DisallowConcurrentExecution]
 public class ServerDataExpiredJob : IJob
 {

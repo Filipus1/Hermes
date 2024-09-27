@@ -5,6 +5,7 @@ using Hermes.Infrastructure.Helpers;
 using Quartz;
 
 namespace Hermes.Infrastructure.CronJobs;
+
 [DisallowConcurrentExecution]
 public class ServerDataJob : IJob
 {

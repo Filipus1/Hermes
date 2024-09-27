@@ -1,6 +1,7 @@
 using FluentValidation.Results;
 
 namespace Hermes.Application.Services.Extension;
+
 public static class ValidationResultExtensions
 {
     public static IDictionary<string, string[]> ToDictionary(this ValidationResult result)

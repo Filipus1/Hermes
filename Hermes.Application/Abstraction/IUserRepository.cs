@@ -1,6 +1,7 @@
 using Hermes.Application.Entities;
 
 namespace Hermes.Application.Abstraction;
+
 public interface IUserRepository
 {
     Task<IEnumerable<User>> GetUsers();

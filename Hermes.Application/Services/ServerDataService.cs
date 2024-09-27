@@ -2,6 +2,7 @@ using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
 
 namespace Hermes.Application.Services;
+
 public class ServerDataService : IServerDataService
 {
     private readonly IServerDataRepository _repository;

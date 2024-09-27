@@ -3,6 +3,7 @@ using Hermes.Application.Entities;
 using Hermes.Infrastructure.Pagination;
 
 namespace Hermes.Application.Services;
+
 public class ElasticService : IElasticService
 {
     private readonly IElasticRepository _repository;

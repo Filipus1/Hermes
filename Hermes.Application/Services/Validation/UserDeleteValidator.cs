@@ -2,9 +2,10 @@ using FluentValidation;
 using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services.Validation;
-public class UserDeleteValidationService : AbstractValidator<List<CollaboratorDto>>
+
+public class UserDeleteValidator : AbstractValidator<List<CollaboratorDto>>
 {
-    public UserDeleteValidationService()
+    public UserDeleteValidator()
     {
         RuleFor(collabList => collabList).NotEmpty().WithMessage("No users were provided");
 

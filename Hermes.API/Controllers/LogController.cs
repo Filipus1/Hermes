@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
+
 [ApiController]
 [Route("api/log")]
 public class LogController : Controller

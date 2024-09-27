@@ -1,4 +1,5 @@
 ﻿namespace Hermes.Infrastructure.TokenGenerator;
+
 public class TokenGenerator : ITokenGenerator
 {
     public string GenerateToken()

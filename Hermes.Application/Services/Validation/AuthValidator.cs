@@ -3,6 +3,7 @@ using Hermes.Application.Abstraction;
 using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services.Validation;
+
 public class AuthValidator : AbstractValidator<UserDto>
 {
     public AuthValidator(IUserRepository repository, IUserService userService)

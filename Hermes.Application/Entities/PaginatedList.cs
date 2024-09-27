@@ -1,4 +1,5 @@
 namespace Hermes.Infrastructure.Pagination;
+
 public class PaginatedList<T> : List<T>
 {
     public int CurrentPage { get; private set; }

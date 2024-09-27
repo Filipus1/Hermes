@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hermes.Infrastructure.Repositories;
+
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _context;

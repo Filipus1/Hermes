@@ -1,6 +1,7 @@
 using System.Text.Json;
 
 namespace Hermes.Infrastructure.BanListConverter;
+
 public class BanListConverter
 {
     public string ParseToJson(string banList)

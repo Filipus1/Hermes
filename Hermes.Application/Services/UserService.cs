@@ -4,6 +4,7 @@ using Hermes.Application.Entities;
 using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services;
+
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
