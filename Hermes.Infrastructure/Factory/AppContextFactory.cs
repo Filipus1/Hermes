@@ -17,8 +17,6 @@ public class AppContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 
     private string GetConnectionString()
     {
-        DotNetEnv.Env.Load("../.env");
-
         var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
 
         if (environment == "Production")
