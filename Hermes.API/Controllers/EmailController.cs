@@ -1,5 +1,5 @@
 using Hermes.Application.Abstraction;
-using Hermes.Infrastructure.Dto;
+using Hermes.Application.Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Hermes.Infrastructure.Dto;
+using Hermes.Application.Entities.Dto;
 using Hermes.Infrastructure.BanListFileHandler;
 using Hermes.Infrastructure.BanListConverter;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Hermes.API.Cookies;
 using Hermes.Application.Abstraction;
-using Hermes.Infrastructure.Dto;
+using Hermes.Application.Entities.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.API.Controllers;
