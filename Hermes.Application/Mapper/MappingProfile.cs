@@ -2,7 +2,7 @@ using AutoMapper;
 using Hermes.Application.Entities;
 using Hermes.Application.Entities.Dto;
 
-namespace Hermes.Infrastructure.Mapper;
+namespace Hermes.Application.Mapper;
 public class MappingProfile : Profile
 {
     public MappingProfile()

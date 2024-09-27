@@ -9,7 +9,7 @@ using Hermes.Infrastructure.Email;
 using Hermes.Infrastructure.Factory;
 using Hermes.Infrastructure.BanListFileHandler;
 using Hermes.Infrastructure.BanListConverter;
-using Hermes.Infrastructure.Mapper;
+using Hermes.Application.Mapper;
 using Hermes.Infrastructure.Repositories;
 using Hermes.Infrastructure.Seed;
 using Hermes.Infrastructure.TokenGenerator;
