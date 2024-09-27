@@ -4,6 +4,7 @@ namespace Hermes.Application.Abstraction;
 public interface IUserRepository
 {
     Task<IEnumerable<User>> GetUsers();
+    Task<IEnumerable<User>> GetCollaborators();
     Task<User?> GetUserByGuid(Guid userGuid);
     Task<User?> GetUserByCredentials(string email, string password);
     Task<User?> GetUserByEmail(string email);

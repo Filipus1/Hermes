@@ -1,4 +1,5 @@
 using Hermes.Application.Entities;
+using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Abstraction;
 public interface IUserService
@@ -8,6 +9,6 @@ public interface IUserService
     public Task<User?> Get(Guid userGuid);
     public Task<User?> Get(string email, string password);
     public Task<User?> Get(string email);
-    public Task<IEnumerable<User>> GetCollaborators();
+    public Task<IEnumerable<CollaboratorDto>> GetCollaborators();
     public Task<IEnumerable<User>> GetAll();
 }

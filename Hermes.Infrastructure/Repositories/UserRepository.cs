@@ -63,6 +63,11 @@ public class UserRepository : IUserRepository
         return await _context.Users.ToListAsync();
     }
 
+    public async Task<IEnumerable<User>> GetCollaborators()
+    {
+        return await _context.Users.Where(u => u.Role == "collaborator").ToListAsync();
+    }
+
     public async Task<bool> IsEmailUnique(string email)
     {
         return !await _context.Users.AnyAsync(u => u.Email == email);

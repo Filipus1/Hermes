@@ -1,14 +1,18 @@
+using AutoMapper;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
+using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly IMapper _mapper;
 
-    public UserService(IUserRepository repository)
+    public UserService(IUserRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task Create(User user)
@@ -41,13 +45,10 @@ public class UserService : IUserService
         return await _repository.GetUsers();
     }
 
-    public async Task<IEnumerable<User>> GetCollaborators()
+    public async Task<IEnumerable<CollaboratorDto>> GetCollaborators()
     {
-        var users = await GetAll();
-        var collaborators = users
-            .Where(u => u.Role == "collaborator")
-            .ToList();
+        var collaborators = await _repository.GetCollaborators();
 
-        return collaborators;
+        return collaborators.Select(c => _mapper.Map<CollaboratorDto>(c)).ToList();
     }
 }

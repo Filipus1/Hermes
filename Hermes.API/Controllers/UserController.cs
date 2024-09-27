@@ -1,9 +1,7 @@
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using Hermes.Application.Abstraction;
 using Hermes.Application.Entities;
-using Hermes.Application.Services;
 using Hermes.Application.Entities.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,11 +36,11 @@ public class UserController : Controller
 
         User user = _mapper.Map<User>(dto);
 
-        var validationResult = await _validator.ValidateAsync(user);
+        var userValidationResult = await _validator.ValidateAsync(user);
 
-        if (!validationResult.IsValid)
+        if (!userValidationResult.IsValid)
         {
-            return ValidationProblem(new ValidationProblemDetails(validationResult.ToDictionary()));
+            return ValidationProblem(new ValidationProblemDetails(userValidationResult.ToDictionary()));
         }
 
         await _userService.Create(user);
@@ -55,10 +53,7 @@ public class UserController : Controller
     [HttpGet("collaborators")]
     public async Task<IActionResult> GetCollaborators()
     {
-        var users = await _userService.GetCollaborators();
-
-        var collaborators = users.Select(u => _mapper.Map<CollaboratorDto>(u))
-            .ToList();
+        var collaborators = await _userService.GetCollaborators();
 
         return Ok(new { collaborators });
     }
