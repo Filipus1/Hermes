@@ -7,7 +7,7 @@ public static class IServiceCollectionExtension
 {
     public static IServiceCollection AddFluentValidation(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(typeof(UserValidationService).Assembly);
+        services.AddValidatorsFromAssembly(typeof(UserValidator).Assembly);
 
         return services;
     }

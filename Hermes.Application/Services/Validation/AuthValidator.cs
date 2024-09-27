@@ -3,9 +3,9 @@ using Hermes.Application.Abstraction;
 using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services.Validation;
-public class AuthValidationService : AbstractValidator<UserDto>
+public class AuthValidator : AbstractValidator<UserDto>
 {
-    public AuthValidationService(IUserRepository repository, IUserService userService)
+    public AuthValidator(IUserRepository repository, IUserService userService)
     {
         RuleFor(u => u.Email)
             .NotEmpty().WithMessage("Email is required")

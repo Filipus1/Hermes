@@ -3,9 +3,9 @@ using Hermes.Application.Abstraction;
 using Hermes.Application.Entities.Dto;
 
 namespace Hermes.Application.Services.Validation;
-public class UserValidationService : AbstractValidator<RegisterDto>
+public class UserValidator : AbstractValidator<RegisterDto>
 {
-    public UserValidationService(IUserRepository repository)
+    public UserValidator(IUserRepository repository)
     {
         RuleFor(u => u.Email).MustAsync(async (email, _) =>
         {
