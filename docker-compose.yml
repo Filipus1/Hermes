@@ -48,6 +48,15 @@ services:
       hermes.database:
         condition: service_healthy
 
+  frontend:
+    container_name: hermes.frontend 
+    image: filipus01/hermes_frontend:latest
+    environment:
+    - VITE_SERVER_URL=${VITE_SERVER_URL}
+    - VITE_CLIENT_URL=${VITE_CLIENT_URL} 
+    ports:
+      - "5173:80"
+
   elasticsearch:
     container_name: elastic
     image: elasticsearch:8.15.1
