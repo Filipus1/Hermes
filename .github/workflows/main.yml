@@ -21,11 +21,11 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Build and Push Docker Image
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: filipus01/hermes
-          tags: latest
-          registry: docker.io
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker Image
+        run: docker build -t ghcr.io/filipzytka/hermes:latest .
+
+      - name: Push Docker Image to GitHub Packages
+        run: docker push ghcr.io/filipzytka/hermes:latest
