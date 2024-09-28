@@ -18,9 +18,7 @@ services:
 
   server:
     container_name: hermes.server
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: filipus01/hermes-server:latest
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
       - TEST_POSTGRES_DB=${TEST_POSTGRES_DB}
