@@ -10,13 +10,9 @@ public class ElasticRepository : IElasticRepository
     private const string INDEX_NAME = "npm-logs";
     private readonly ElasticsearchClient _client;
 
-    public ElasticRepository()
+    public ElasticRepository(ElasticsearchClient client)
     {
-        var url = Environment.GetEnvironmentVariable("ELASTICSEARCH_URL");
-        var settings = new ElasticsearchClientSettings(new Uri(url!))
-            .DefaultIndex(INDEX_NAME);
-
-        _client = new ElasticsearchClient(settings);
+        _client = client;
     }
 
     public async Task<ElasticLog?> GetByKey(string key)

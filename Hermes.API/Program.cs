@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using MimeKit;
 using Hermes.Infrastructure.Helpers;
 using Hermes.Application.Services.Extension;
+using Elastic.Clients.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load("../.env");
@@ -34,15 +35,29 @@ builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddSingleton<BanListConverter>();
 builder.Services.AddSingleton<CookieManager>();
 builder.Services.AddSingleton<BanListFileHandler>();
+builder.Services.AddSingleton<ElasticsearchClient>(provider =>
+{
+    var url = Environment.GetEnvironmentVariable("ELASTICSEARCH_URL");
+    var settings = new ElasticsearchClientSettings(new Uri(url!))
+    .DefaultIndex("npm-logs");
+
+    return new ElasticsearchClient(settings);
+});
 
 builder.Services.AddScoped<MimeMessage>();
 builder.Services.AddScoped<IServerDataService, ServerDataService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
-builder.Services.AddScoped<IElasticRepository, ElasticRepository>();
 builder.Services.AddScoped<IElasticService, ElasticService>();
 builder.Services.AddScoped<HttpClientSender>();
+
+builder.Services.AddScoped<IElasticRepository>(provider =>
+{
+    var elasticClient = provider.GetRequiredService<ElasticsearchClient>();
+
+    return new ElasticRepository(elasticClient);
+});
 
 builder.Services.AddScoped<ITokenRepository>(provider =>
 {
