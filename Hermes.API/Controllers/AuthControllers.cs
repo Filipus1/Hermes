@@ -33,10 +33,14 @@ public class AuthController : Controller
 
         var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
         var stringGuid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
         var guid = new Guid(stringGuid!);
 
         var user = await _userService.GetUserbyGuid(guid);
+
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found" });
+        }
 
         return Ok(new { message = "User is authenticated", role, email = user!.Email });
     }
