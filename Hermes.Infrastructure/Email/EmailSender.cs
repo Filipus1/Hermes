@@ -10,9 +10,9 @@ namespace Hermes.Infrastructure.Email;
 public class EmailSender : IEmailSender
 {
     private readonly MimeMessage _message;
-    private readonly IEmailConfig _emailConfig;
+    private readonly EmailConfig _emailConfig;
 
-    public EmailSender(MimeMessage message, IEmailConfig emailConfig)
+    public EmailSender(MimeMessage message, EmailConfig emailConfig)
     {
         _message = message;
         _emailConfig = emailConfig;

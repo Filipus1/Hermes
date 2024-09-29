@@ -28,7 +28,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddFluentValidation();
 
 builder.Services.AddSingleton<AppContextFactory>();
-builder.Services.AddSingleton<IEmailConfig, EmailConfig>();
+builder.Services.AddSingleton<EmailConfig>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddSingleton<BanListConverter>();
