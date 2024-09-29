@@ -1,7 +1,7 @@
 services:
   hermes.database:
     container_name: hermes.database
-    image: postgres:latest
+    image: postgres:16
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER} 
