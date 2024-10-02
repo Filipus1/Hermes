@@ -91,7 +91,7 @@ builder.Services.AddAuthentication("auth-scheme")
     {
         options.Cookie.Name = "auth";
         options.Cookie.HttpOnly = true;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.None;
         options.Cookie.SameSite = SameSiteMode.Lax;
     });
 
