@@ -50,8 +50,8 @@ services:
     container_name: hermes.frontend 
     image: filipus01/hermes_frontend:latest
     environment:
-    - VITE_SERVER_URL=${VITE_SERVER_URL}
-    - VITE_CLIENT_URL=${VITE_CLIENT_URL} 
+    - ENV_API_BASE_URL=${ENV_API_BASE_URL}
+    - ENV_REACT_BASE_URL=${ENV_REACT_BASE_URL} 
     ports:
       - "5173:80"
 
