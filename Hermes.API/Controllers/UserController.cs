@@ -16,7 +16,8 @@ public class UserController : Controller
     private readonly IValidator<RegisterDto> _userValidator;
     private readonly IValidator<List<CollaboratorDto>> _collaboratorValidator;
 
-    public UserController(IUserService userService, ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> userValidator, IValidator<List<CollaboratorDto>> collaboratorValidator)
+    public UserController(IUserService userService
+    , ITokenService tokenService, IValidator<RegisterDto> userValidator, IValidator<List<CollaboratorDto>> collaboratorValidator)
     {
         _userService = userService;
         _tokenService = tokenService;
