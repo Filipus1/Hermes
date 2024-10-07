@@ -53,12 +53,13 @@ public class TokenRepository : ITokenRepository
         {
             var testToken = EnvironmentHelper.GetValidationToken();
 
-            if (searchedToken.Token != testToken)
+            if (searchedToken.Token == testToken)
             {
-                searchedToken.IsUsed = true;
+                return;
             }
         }
 
+        searchedToken.IsUsed = true;
         await _context.SaveChangesAsync();
     }
 
